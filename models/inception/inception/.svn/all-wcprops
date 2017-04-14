@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/tensorflow/models/!svn/ver/185/trunk/inception/inception
+END
+BUILD
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/tensorflow/models/!svn/ver/71/trunk/inception/inception/BUILD
+END
+flowers_eval.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/tensorflow/models/!svn/ver/39/trunk/inception/inception/flowers_eval.py
+END
+imagenet_distributed_train.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/tensorflow/models/!svn/ver/71/trunk/inception/inception/imagenet_distributed_train.py
+END
+inception_model.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/tensorflow/models/!svn/ver/71/trunk/inception/inception/inception_model.py
+END
+flowers_data.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/tensorflow/models/!svn/ver/39/trunk/inception/inception/flowers_data.py
+END
+flowers_train.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/tensorflow/models/!svn/ver/39/trunk/inception/inception/flowers_train.py
+END
+image_processing.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/tensorflow/models/!svn/ver/89/trunk/inception/inception/image_processing.py
+END
+inception_eval.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/tensorflow/models/!svn/ver/39/trunk/inception/inception/inception_eval.py
+END
+imagenet_eval.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/tensorflow/models/!svn/ver/39/trunk/inception/inception/imagenet_eval.py
+END
+imagenet_data.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/tensorflow/models/!svn/ver/39/trunk/inception/inception/imagenet_data.py
+END
+dataset.py
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/tensorflow/models/!svn/ver/39/trunk/inception/inception/dataset.py
+END
+inception_train.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/tensorflow/models/!svn/ver/85/trunk/inception/inception/inception_train.py
+END
+imagenet_train.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/tensorflow/models/!svn/ver/39/trunk/inception/inception/imagenet_train.py
+END
+inception_distributed_train.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/tensorflow/models/!svn/ver/71/trunk/inception/inception/inception_distributed_train.py
+END

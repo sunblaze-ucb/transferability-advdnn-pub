@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/tensorflow/models/!svn/ver/115/trunk/inception/inception/data
+END
+imagenet_lsvrc_2015_synsets.txt
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/tensorflow/models/!svn/ver/39/trunk/inception/inception/data/imagenet_lsvrc_2015_synsets.txt
+END
+download_and_preprocess_imagenet.sh
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/tensorflow/models/!svn/ver/39/trunk/inception/inception/data/download_and_preprocess_imagenet.sh
+END
+build_image_data.py
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/tensorflow/models/!svn/ver/85/trunk/inception/inception/data/build_image_data.py
+END
+imagenet_metadata.txt
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/tensorflow/models/!svn/ver/39/trunk/inception/inception/data/imagenet_metadata.txt
+END
+build_imagenet_data.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/tensorflow/models/!svn/ver/39/trunk/inception/inception/data/build_imagenet_data.py
+END
+download_and_preprocess_flowers.sh
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/tensorflow/models/!svn/ver/39/trunk/inception/inception/data/download_and_preprocess_flowers.sh
+END
+download_and_preprocess_flowers_mac.sh
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/tensorflow/models/!svn/ver/115/trunk/inception/inception/data/download_and_preprocess_flowers_mac.sh
+END
+preprocess_imagenet_validation_data.py
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/tensorflow/models/!svn/ver/39/trunk/inception/inception/data/preprocess_imagenet_validation_data.py
+END
+download_imagenet.sh
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/tensorflow/models/!svn/ver/58/trunk/inception/inception/data/download_imagenet.sh
+END
+process_bounding_boxes.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/tensorflow/models/!svn/ver/39/trunk/inception/inception/data/process_bounding_boxes.py
+END
+imagenet_2012_validation_synset_labels.txt
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/tensorflow/models/!svn/ver/39/trunk/inception/inception/data/imagenet_2012_validation_synset_labels.txt
+END

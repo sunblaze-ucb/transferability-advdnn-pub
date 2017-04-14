@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/tensorflow/models/!svn/ver/185/trunk/inception
+END
+.gitignore
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/tensorflow/models/!svn/ver/39/trunk/inception/.gitignore
+END
+README.md
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/tensorflow/models/!svn/ver/185/trunk/inception/README.md
+END
+WORKSPACE
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/tensorflow/models/!svn/ver/39/trunk/inception/WORKSPACE
+END

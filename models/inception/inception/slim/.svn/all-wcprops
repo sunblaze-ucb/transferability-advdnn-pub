@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/tensorflow/models/!svn/ver/185/trunk/inception/inception/slim
+END
+BUILD
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/tensorflow/models/!svn/ver/61/trunk/inception/inception/slim/BUILD
+END
+inception_model.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/tensorflow/models/!svn/ver/69/trunk/inception/inception/slim/inception_model.py
+END
+losses.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/tensorflow/models/!svn/ver/69/trunk/inception/inception/slim/losses.py
+END
+variables.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/tensorflow/models/!svn/ver/69/trunk/inception/inception/slim/variables.py
+END
+scopes_test.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/tensorflow/models/!svn/ver/69/trunk/inception/inception/slim/scopes_test.py
+END
+scopes.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/tensorflow/models/!svn/ver/184/trunk/inception/inception/slim/scopes.py
+END
+collections_test.py
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/tensorflow/models/!svn/ver/69/trunk/inception/inception/slim/collections_test.py
+END
+ops_test.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/tensorflow/models/!svn/ver/69/trunk/inception/inception/slim/ops_test.py
+END
+ops.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/tensorflow/models/!svn/ver/69/trunk/inception/inception/slim/ops.py
+END
+slim.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/tensorflow/models/!svn/ver/39/trunk/inception/inception/slim/slim.py
+END
+README.md
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/tensorflow/models/!svn/ver/185/trunk/inception/inception/slim/README.md
+END
+inception_test.py
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/tensorflow/models/!svn/ver/69/trunk/inception/inception/slim/inception_test.py
+END
+losses_test.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/tensorflow/models/!svn/ver/69/trunk/inception/inception/slim/losses_test.py
+END
+variables_test.py
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/tensorflow/models/!svn/ver/69/trunk/inception/inception/slim/variables_test.py
+END

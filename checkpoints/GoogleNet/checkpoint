@@ -1,0 +1,2 @@
+model_checkpoint_path: "GoogleNet.ckpt"
+all_model_checkpoint_paths: "GoogleNet.ckpt"
