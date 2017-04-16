@@ -1,5 +1,6 @@
 from kaffe.tensorflow import Network
 
+
 class VGG16(Network):
     def setup(self):
         (self.feed('data')

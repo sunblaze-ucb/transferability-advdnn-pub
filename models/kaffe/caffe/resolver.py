@@ -2,6 +2,7 @@ import sys
 
 SHARED_CAFFE_RESOLVER = None
 
+
 class CaffeResolver(object):
     def __init__(self):
         self.import_caffe()
@@ -26,14 +27,17 @@ class CaffeResolver(object):
     def has_pycaffe(self):
         return self.caffe is not None
 
+
 def get_caffe_resolver():
     global SHARED_CAFFE_RESOLVER
     if SHARED_CAFFE_RESOLVER is None:
         SHARED_CAFFE_RESOLVER = CaffeResolver()
     return SHARED_CAFFE_RESOLVER
 
+
 def has_pycaffe():
     return get_caffe_resolver().has_pycaffe()
+
 
 def show_fallback_warning():
     msg = '''

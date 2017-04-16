@@ -32,23 +32,23 @@ def layer(op):
 class Network(object):
 
     def __init__(self, inputs, trainable=True, device=None):
-       # The input nodes for this network
-       self.inputs = inputs
-       # The current list of terminal nodes
-       self.terminals = []
-       # Mapping from layer names to layers
-       self.layers = dict(inputs)
-       # If true, the resulting variables are set as trainable
-       self.trainable = trainable
-       # Switch variable for dropout
-       self.use_dropout = tf.placeholder_with_default(tf.constant(1.0),
-                                                      shape=[],
-                                                      name='use_dropout')
-       if device:
-           with tf.device(device):
-               self.setup()
-       else:
-           self.setup()
+        # The input nodes for this network
+        self.inputs = inputs
+        # The current list of terminal nodes
+        self.terminals = []
+        # Mapping from layer names to layers
+        self.layers = dict(inputs)
+        # If true, the resulting variables are set as trainable
+        self.trainable = trainable
+        # Switch variable for dropout
+        self.use_dropout = tf.placeholder_with_default(tf.constant(1.0),
+                                                       shape=[],
+                                                       name='use_dropout')
+        if device:
+            with tf.device(device):
+                self.setup()
+        else:
+            self.setup()
 
     def setup(self):
         '''Construct the network. '''
@@ -130,17 +130,26 @@ class Network(object):
         assert c_i % group == 0
         assert c_o % group == 0
         # Convolution for a given input and kernel
-        convolve = lambda i, k: tf.nn.conv2d(i, k, [1, s_h, s_w, 1], padding=padding)
+
+        def convolve(i, k): return tf.nn.conv2d(
+            i, k, [1, s_h, s_w, 1], padding=padding)
         with tf.variable_scope(name) as scope:
-            kernel = self.make_var('weights', shape=[k_h, k_w, c_i / group, c_o])
+            kernel = self.make_var(
+                'weights', shape=[
+                    k_h, k_w, c_i / group, c_o])
             if group == 1:
-                # This is the common-case. Convolve the input without any further complications.
+                # This is the common-case. Convolve the input without any
+                # further complications.
                 output = convolve(input, kernel)
             else:
-                # Split the input into groups and then convolve each of them independently
+                # Split the input into groups and then convolve each of them
+                # independently
                 input_groups = tf.split(3, group, input)
                 kernel_groups = tf.split(3, group, kernel)
-                output_groups = [convolve(i, k) for i, k in zip(input_groups, kernel_groups)]
+                output_groups = [
+                    convolve(
+                        i, k) for i, k in zip(
+                        input_groups, kernel_groups)]
                 # Concatenate the groups
                 output = tf.concat(3, output_groups)
             # Add the biases
@@ -157,7 +166,15 @@ class Network(object):
         return tf.nn.relu(input, name=name)
 
     @layer
-    def max_pool(self, input, k_h, k_w, s_h, s_w, name, padding=DEFAULT_PADDING):
+    def max_pool(
+            self,
+            input,
+            k_h,
+            k_w,
+            s_h,
+            s_w,
+            name,
+            padding=DEFAULT_PADDING):
         self.validate_padding(padding)
         return tf.nn.max_pool(input,
                               ksize=[1, k_h, k_w, 1],
@@ -166,7 +183,15 @@ class Network(object):
                               name=name)
 
     @layer
-    def avg_pool(self, input, k_h, k_w, s_h, s_w, name, padding=DEFAULT_PADDING):
+    def avg_pool(
+            self,
+            input,
+            k_h,
+            k_w,
+            s_h,
+            s_w,
+            name,
+            padding=DEFAULT_PADDING):
         self.validate_padding(padding)
         return tf.nn.avg_pool(input,
                               ksize=[1, k_h, k_w, 1],

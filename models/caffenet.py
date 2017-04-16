@@ -1,5 +1,6 @@
 from kaffe.tensorflow import Network
 
+
 class CaffeNet(Network):
     def setup(self):
         (self.feed('data')

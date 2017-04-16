@@ -15,6 +15,7 @@ from caffenet import CaffeNet
 from nin import NiN
 from resnet import ResNet50, ResNet101, ResNet152
 
+
 def auto_str(cls):
     def __str__(self):
         return '%s(%s)' % (
@@ -23,6 +24,7 @@ def auto_str(cls):
         )
     cls.__str__ = __str__
     return cls
+
 
 @auto_str
 class DataSpec(object):
@@ -50,33 +52,73 @@ class DataSpec(object):
         # The mean to be subtracted from each image. By default, the per-channel ImageNet mean.
         # The values below are ordered BGR, as many Caffe models are trained in this order.
         # Some of the earlier models (like AlexNet) used a spatial three-channeled mean.
-        # However, using just the per-channel mean values instead doesn't affect things too much.
+        # However, using just the per-channel mean values instead doesn't
+        # affect things too much.
         self.mean = mean
         # Whether this model expects images to be in BGR order
         self.expects_bgr = bgr
         self.rescale = rescale
 
+
 def alexnet_spec(batch_size=500):
     """Parameters used by AlexNet and its variants."""
-    return DataSpec(batch_size=batch_size, scale_size=256, crop_size=227, isotropic=False)
+    return DataSpec(
+        batch_size=batch_size,
+        scale_size=256,
+        crop_size=227,
+        isotropic=False)
+
 
 def ensemble_spec():
-    return DataSpec(batch_size=1, scale_size=224, crop_size=224, isotropic=False)
+    return DataSpec(
+        batch_size=1,
+        scale_size=224,
+        crop_size=224,
+        isotropic=False)
 
 
 def inception_spec(batch_size=25, crop_size=299, bgr=False):
     """Parameters used by Inception and its variants."""
-    return DataSpec(batch_size=batch_size, scale_size=crop_size, crop_size=crop_size, isotropic=False, bgr=bgr, rescale=[-1.0,1.0], mean=np.array([0.,0.,0.]))
+    return DataSpec(batch_size=batch_size,
+                    scale_size=crop_size,
+                    crop_size=crop_size,
+                    isotropic=False,
+                    bgr=bgr,
+                    rescale=[-1.0,
+                             1.0],
+                    mean=np.array([0.,
+                                   0.,
+                                   0.]))
 
 
 def std_spec(batch_size, isotropic=True):
     """Parameters commonly used by "post-AlexNet" architectures."""
-    return DataSpec(batch_size=batch_size, scale_size=256, crop_size=224, isotropic=False)
+    return DataSpec(
+        batch_size=batch_size,
+        scale_size=256,
+        crop_size=224,
+        isotropic=False)
 
 
 # Collection of sample auto-generated models
-str2Model = {"AlexNet": AlexNet, "CaffeNet": CaffeNet, "GoogleNet": GoogleNet, "NiN": NiN, "ResNet50": ResNet50, "ResNet101": ResNet101, "ResNet152": ResNet152, "VGG16": VGG16}
-MODELS = (AlexNet, CaffeNet, GoogleNet, NiN, ResNet50, ResNet101, ResNet152, VGG16)
+str2Model = {
+    "AlexNet": AlexNet,
+    "CaffeNet": CaffeNet,
+    "GoogleNet": GoogleNet,
+    "NiN": NiN,
+    "ResNet50": ResNet50,
+    "ResNet101": ResNet101,
+    "ResNet152": ResNet152,
+    "VGG16": VGG16}
+MODELS = (
+    AlexNet,
+    CaffeNet,
+    GoogleNet,
+    NiN,
+    ResNet50,
+    ResNet101,
+    ResNet152,
+    VGG16)
 
 # The corresponding data specifications for the sample models
 # These specifications are based on how the models were trained.
@@ -130,7 +172,7 @@ def get_data_spec(model_name):
     return MODEL_DATA_SPECS[model_name]
 
 
-def get_model(sess, input_node, model_name, device = None):
+def get_model(sess, input_node, model_name, device=None):
     print 'Getting model def', model_name
     start_variable_set = set(tf.all_variables())
     if model_name == 'Inception':
@@ -141,7 +183,8 @@ def get_model(sess, input_node, model_name, device = None):
         end_node = get_inception(rescaled_input_node)
     else:
         all_models = MODELS
-        net_class = [model for model in all_models if model.__name__ == model_name][0]
+        net_class = [
+            model for model in all_models if model.__name__ == model_name][0]
         net = net_class({'data': input_node})
         end_node = net.get_output()
     end_variable_set = set(tf.all_variables())
@@ -155,7 +198,7 @@ def get_model(sess, input_node, model_name, device = None):
     return end_node, variable_set
 
 
-def get_model2(sess, input_node, model_name, device = None):
+def get_model2(sess, input_node, model_name, device=None):
     print 'Getting model def', model_name
     start_variable_set = set(tf.all_variables())
     if model_name == 'Inception':
@@ -165,7 +208,8 @@ def get_model2(sess, input_node, model_name, device = None):
         end_node, end_node2 = get_inception2(rescaled_input_node)
     else:
         all_models = MODELS
-        net_class = [model for model in all_models if model.__name__ == model_name][0]
+        net_class = [
+            model for model in all_models if model.__name__ == model_name][0]
         net = net_class({'data': input_node})
         end_node = net.get_output()
         if model_name == 'VGG16':
@@ -211,18 +255,33 @@ def inception_load_parameters(sess, var_list=None):
         print('No checkpoint file found')
         return
 
+
 def save_all_as_checkponits():
     # Now this function only save ckpt file for GoogleNet,
     # TODO: Save ckpt for all 9 networks
-    for model_name in ["AlexNet", "CaffeNet", "GoogleNet", "NiN", "ResNet50", "VGG16"]:
+    for model_name in [
+        "AlexNet",
+        "CaffeNet",
+        "GoogleNet",
+        "NiN",
+        "ResNet50",
+            "VGG16"]:
         if not tf.train.checkpoint_exists(CKPT_PATHES[model_name]):
             print "Checkpoint for " + model_name + " has not been created yet, creating checkpoint..."
             spec = get_data_spec(model_name)
-            input_node = tf.placeholder(tf.float32,
-                                    shape=(None, spec.crop_size, spec.crop_size, spec.channels))
+            input_node = tf.placeholder(
+                tf.float32,
+                shape=(
+                    None,
+                    spec.crop_size,
+                    spec.crop_size,
+                    spec.channels))
             net = str2Model[model_name]({'data': input_node})
             with tf.Session() as sesh:
                 net.load(get_model_path(model_name), sesh)
                 saver = tf.train.Saver()
                 save_path = saver.save(sesh, CKPT_PATHES[model_name])
-                print(model_name + " Model checkpoint saved in file: %s" % save_path)
+                print(
+                    model_name +
+                    " Model checkpoint saved in file: %s" %
+                    save_path)

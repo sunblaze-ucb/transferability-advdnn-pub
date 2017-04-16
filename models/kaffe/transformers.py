@@ -37,13 +37,15 @@ class DataInjector(object):
     def load_using_caffe(self):
         caffe = get_caffe_resolver().caffe
         net = caffe.Net(self.def_path, self.data_path, caffe.TEST)
-        data = lambda blob: blob.data
+
+        def data(blob): return blob.data
         self.params = [(k, map(data, v)) for k, v in net.params.items()]
 
     def load_using_pb(self):
         data = get_caffe_resolver().NetParameter()
         data.MergeFromString(open(self.data_path, 'rb').read())
-        pair = lambda layer: (layer.name, self.normalize_pb_data(layer))
+
+        def pair(layer): return (layer.name, self.normalize_pb_data(layer))
         layers = data.layers or data.layer
         self.params = [pair(layer) for layer in layers if layer.blobs]
         self.did_use_pb = True
@@ -59,7 +61,9 @@ class DataInjector(object):
                 c_i = blob.channels
                 h = blob.height
                 w = blob.width
-            data = np.array(blob.data, dtype=np.float32).reshape(c_o, c_i, h, w)
+            data = np.array(
+                blob.data, dtype=np.float32).reshape(
+                c_o, c_i, h, w)
             transformed.append(data)
         return transformed
 
@@ -85,7 +89,9 @@ class DataInjector(object):
                 node = graph.get_node(layer_name)
                 node.data = self.adjust_parameters(node, data)
             else:
-                print_stderr('Ignoring parameters for non-existent layer: %s' % layer_name)
+                print_stderr(
+                    'Ignoring parameters for non-existent layer: %s' %
+                    layer_name)
         return graph
 
 
@@ -112,7 +118,8 @@ class DataReshaper(object):
         try:
             return self.mapping[node_kind]
         except KeyError:
-            raise KaffeError('Ordering not found for node kind: {}'.format(node_kind))
+            raise KaffeError(
+                'Ordering not found for node kind: {}'.format(node_kind))
 
     def __call__(self, graph):
         for node in graph.nodes:
@@ -121,7 +128,8 @@ class DataReshaper(object):
             if node.kind not in self.reshaped_node_types:
                 # Check for 2+ dimensional data
                 if any(len(tensor.shape) > 1 for tensor in node.data):
-                    print_stderr('Warning: parmaters not reshaped for node: {}'.format(node))
+                    print_stderr(
+                        'Warning: parmaters not reshaped for node: {}'.format(node))
                 continue
             transpose_order = self.map(node.kind)
             weights = node.data[0]
@@ -131,11 +139,11 @@ class DataReshaper(object):
                 in_shape = node.get_only_parent().output_shape
                 fc_shape = weights.shape
                 output_channels = fc_shape[0]
-                weights = weights.reshape((output_channels, in_shape.channels, in_shape.height,
-                                           in_shape.width))
+                weights = weights.reshape(
+                    (output_channels, in_shape.channels, in_shape.height, in_shape.width))
                 weights = weights.transpose(self.map(NodeKind.Convolution))
-                node.reshaped_data = weights.reshape(fc_shape[transpose_order[0]],
-                                                     fc_shape[transpose_order[1]])
+                node.reshaped_data = weights.reshape(
+                    fc_shape[transpose_order[0]], fc_shape[transpose_order[1]])
             else:
                 node.reshaped_data = weights.transpose(transpose_order)
 
@@ -199,8 +207,8 @@ class ReLUFuser(SubNodeFuser):
         self.allowed_parent_types = allowed_parent_types
 
     def is_eligible_pair(self, parent, child):
-        return ((self.allowed_parent_types is None or parent.kind in self.allowed_parent_types) and
-                child.kind == NodeKind.ReLU)
+        return ((self.allowed_parent_types is None or parent.kind in self.allowed_parent_types)
+                and child.kind == NodeKind.ReLU)
 
     def merge(self, parent, _):
         parent.metadata['relu'] = True
@@ -218,7 +226,7 @@ class BatchNormScaleBiasFuser(SubNodeFuser):
 
     def is_eligible_pair(self, parent, child):
         return (parent.kind == NodeKind.BatchNorm and child.kind == NodeKind.Scale and
-                child.parameters.axis == 1 and child.parameters.bias_term == True)
+                child.parameters.axis == 1 and child.parameters.bias_term)
 
     def merge(self, parent, child):
         parent.scale_bias_node = child
@@ -283,7 +291,9 @@ class ParameterNamer(object):
                 if len(node.data) == 4:
                     names += ('scale', 'offset')
             else:
-                print_stderr('WARNING: Unhandled parameters: {}'.format(node.kind))
+                print_stderr(
+                    'WARNING: Unhandled parameters: {}'.format(
+                        node.kind))
                 continue
             assert len(names) == len(node.data)
             node.data = dict(zip(names, node.data))

@@ -1,5 +1,6 @@
 from kaffe.tensorflow import Network
 
+
 class NiN(Network):
     def setup(self):
         (self.feed('data')

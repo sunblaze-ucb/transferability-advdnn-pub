@@ -23,17 +23,18 @@ def process_image(img, scale, isotropic, crop, mean, rescale, need_rescale):
             new_shape = tf.to_int32((scale / min_length) * img_shape)
         else:
             new_shape = tf.pack([scale, scale])
-        
+
         img = tf.image.resize_images(img, (new_shape[0], new_shape[1]))
         # Center crop
         # Use the slice workaround until crop_to_bounding_box supports deferred tensor shapes
         # See: https://github.com/tensorflow/tensorflow/issues/521
         offset = (new_shape - crop) / 2
-        img = tf.slice(img, begin=tf.pack([offset[0], offset[1], 0]), size=tf.pack([crop, crop, -1]))
+        img = tf.slice(img, begin=tf.pack(
+            [offset[0], offset[1], 0]), size=tf.pack([crop, crop, -1]))
     else:
         img = tf.image.resize_images(img, crop, crop)
     # Mean subtraction
-    img = tf.to_float(img);
+    img = tf.to_float(img)
     [l, r] = rescale
     img = img / 255.0 * (r - l) + l
     img = img - mean
@@ -45,7 +46,15 @@ class ImageProducer(object):
     Loads and processes batches of images in parallel.
     """
 
-    def __init__(self, image_paths, need_rescale, data_spec, num_concurrent=4, batch_size=None, labels=None, device=None):
+    def __init__(
+            self,
+            image_paths,
+            need_rescale,
+            data_spec,
+            num_concurrent=4,
+            batch_size=None,
+            labels=None,
+            device=None):
         # The data specifications describe how to process the image
         self.data_spec = data_spec
         # A list of full image paths
@@ -60,7 +69,9 @@ class ImageProducer(object):
         # Create the loading and processing operations
         if device:
             with tf.device(device):
-                self.setup(batch_size=batch_size, num_concurrent=num_concurrent)
+                self.setup(
+                    batch_size=batch_size,
+                    num_concurrent=num_concurrent)
         else:
             self.setup(batch_size=batch_size, num_concurrent=num_concurrent)
 
@@ -74,38 +85,54 @@ class ImageProducer(object):
                     num_images, batch_size))
         self.num_batches = num_images / batch_size
 
-        # Create a queue that will contain image paths (and their indices and extension indicator)
+        # Create a queue that will contain image paths (and their indices and
+        # extension indicator)
         self.path_queue = tf.FIFOQueue(capacity=num_images,
                                        dtypes=[tf.int32, tf.bool, tf.string],
                                        name='path_queue')
 
         # Enqueue all image paths, along with their indices
         indices = tf.range(num_images)
-        self.enqueue_paths_op = self.path_queue.enqueue_many([indices, self.extension_mask,
-                                                              self.image_paths])
+        self.enqueue_paths_op = self.path_queue.enqueue_many(
+            [indices, self.extension_mask, self.image_paths])
         # Close the path queue (no more additions)
         self.close_path_queue_op = self.path_queue.close()
 
-        # Create an operation that dequeues a single path and returns a processed image
+        # Create an operation that dequeues a single path and returns a
+        # processed image
         (idx, processed_image) = self.process()
 
-        # Create a queue that will contain the processed images (and their indices)
-        image_shape = (self.data_spec.crop_size, self.data_spec.crop_size, self.data_spec.channels)
-        processed_queue = tf.FIFOQueue(capacity=int(np.ceil(num_images / float(num_concurrent))),
-                                       dtypes=[tf.int32, tf.float32],
-                                       shapes=[(), image_shape],
-                                       name='processed_queue')
+        # Create a queue that will contain the processed images (and their
+        # indices)
+        image_shape = (
+            self.data_spec.crop_size,
+            self.data_spec.crop_size,
+            self.data_spec.channels)
+        processed_queue = tf.FIFOQueue(
+            capacity=int(
+                np.ceil(
+                    num_images /
+                    float(num_concurrent))),
+            dtypes=[
+                tf.int32,
+                tf.float32],
+            shapes=[
+                (),
+                image_shape],
+            name='processed_queue')
 
         # Enqueue the processed image and path
         enqueue_processed_op = processed_queue.enqueue([idx, processed_image])
 
-        # Create a dequeue op that fetches a batch of processed images off the queue
+        # Create a dequeue op that fetches a batch of processed images off the
+        # queue
         self.dequeue_op = processed_queue.dequeue_many(batch_size)
 
-        # Create a queue runner to perform the processing operations in parallel
+        # Create a queue runner to perform the processing operations in
+        # parallel
         num_concurrent = min(num_concurrent, num_images)
-        self.queue_runner = tf.train.QueueRunner(processed_queue,
-                                                 [enqueue_processed_op] * num_concurrent)
+        self.queue_runner = tf.train.QueueRunner(
+            processed_queue, [enqueue_processed_op] * num_concurrent)
 
     def startover(self, session):
         # Queue all paths
@@ -113,13 +140,14 @@ class ImageProducer(object):
 
     def close_queue(self, session):
         session.run(self.close_path_queue_op)
-        
+
     def start(self, session, coordinator, num_concurrent=4):
         '''Start the processing worker threads.'''
         # Queue all paths
         # session.run(self.enqueue_paths_op)
         # Close the path queue
-        return self.queue_runner.create_threads(session, coord=coordinator, start=True)
+        return self.queue_runner.create_threads(
+            session, coord=coordinator, start=True)
 
     def get(self, session):
         '''
@@ -128,7 +156,8 @@ class ImageProducer(object):
         '''
         (indices, images) = session.run(self.dequeue_op)
         labels = [self.labels[idx] for idx in indices]
-        names = [osp.basename(osp.normpath(self.image_paths[idx])) for idx in indices]
+        names = [osp.basename(osp.normpath(self.image_paths[idx]))
+                 for idx in indices]
         return (indices, labels, names, images)
 
     def batches(self, session):
@@ -141,9 +170,9 @@ class ImageProducer(object):
         file_data = tf.read_file(image_path)
         # Decode the image data
         img = tf.cond(
-            is_jpeg,
-            lambda: tf.image.decode_jpeg(file_data, channels=self.data_spec.channels),
-            lambda: tf.image.decode_png(file_data, channels=self.data_spec.channels))
+            is_jpeg, lambda: tf.image.decode_jpeg(
+                file_data, channels=self.data_spec.channels), lambda: tf.image.decode_png(
+                file_data, channels=self.data_spec.channels))
         if self.data_spec.expects_bgr:
             # Convert from RGB channel ordering to BGR
             # This matches, for instance, how OpenCV orders the channels.
@@ -174,7 +203,8 @@ class ImageProducer(object):
             if extension in ('.jpg', '.jpeg'):
                 return True
             if extension != '.png':
-                raise ValueError('Unsupported image format: {}'.format(extension))
+                raise ValueError(
+                    'Unsupported image format: {}'.format(extension))
             return False
 
         return [is_jpeg(p) for p in paths]
@@ -207,7 +237,8 @@ class ImageNetProducer(ImageProducer):
             else:
                 return -1
 
-        return [get_truth_label(image_file_name) for image_file_name in file_list]
+        return [get_truth_label(image_file_name)
+                for image_file_name in file_list]
 
     @staticmethod
     def get_human_label(label_id):
@@ -215,11 +246,21 @@ class ImageNetProducer(ImageProducer):
         descriptions = [line.strip() for line in open(human_file_path)]
         return descriptions[label_id]
 
-    def __init__(self, file_list, data_path, num_images, data_spec, need_rescale=True, device=None, batch_size=None):
+    def __init__(
+            self,
+            file_list,
+            data_path,
+            num_images,
+            data_spec,
+            need_rescale=True,
+            device=None,
+            batch_size=None):
         # Read in the ground truth labels for the validation set
-        # The get_ilsvrc_aux.sh in Caffe's data/ilsvrc12 folder can fetch a copy of val.txt
+        # The get_ilsvrc_aux.sh in Caffe's data/ilsvrc12 folder can fetch a
+        # copy of val.txt
         if file_list is None:
-            file_list = [image_name for image_name in os.listdir(data_path) if ImageNetProducer.is_image(image_name)]
+            file_list = [image_name for image_name in os.listdir(
+                data_path) if ImageNetProducer.is_image(image_name)]
         else:
             file_list = [line.rstrip('\n') for line in open(file_list)]
 
@@ -230,6 +271,12 @@ class ImageNetProducer(ImageProducer):
         # The corresponding ground truth labels
         labels = ImageNetProducer.get_truth_labels(file_list)
         # Initialize base
-        super(ImageNetProducer, self).__init__(image_paths=image_paths, need_rescale=need_rescale,
-                                               data_spec=data_spec,
-                                               labels=labels, device=device, batch_size=batch_size)
+        super(
+            ImageNetProducer,
+            self).__init__(
+            image_paths=image_paths,
+            need_rescale=need_rescale,
+            data_spec=data_spec,
+            labels=labels,
+            device=device,
+            batch_size=batch_size)

@@ -1,7 +1,3 @@
-/scripts/nohup.out
-/Mingjian/models/ResNet50.npy
-/Mingjian/models/VGG16.npy
-/Mingjian/models/CaffeNet.npy
-/Mingjian/models/AlexNet.npy
-/Mingjian/data/test_data
+data/test_data
 *.pyc
+*.npy

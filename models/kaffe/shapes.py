@@ -3,12 +3,16 @@ from collections import namedtuple
 
 from .errors import KaffeError
 
-TensorShape = namedtuple('TensorShape', ['batch_size', 'channels', 'height', 'width'])
+TensorShape = namedtuple(
+    'TensorShape', [
+        'batch_size', 'channels', 'height', 'width'])
 
 
 def get_filter_output_shape(i_h, i_w, params, round_func):
-    o_h = (i_h + 2 * params.pad_h - params.kernel_h) / float(params.stride_h) + 1
-    o_w = (i_w + 2 * params.pad_w - params.kernel_w) / float(params.stride_w) + 1
+    o_h = (i_h + 2 * params.pad_h - params.kernel_h) / \
+        float(params.stride_h) + 1
+    o_w = (i_w + 2 * params.pad_w - params.kernel_w) / \
+        float(params.stride_w) + 1
     return (int(round_func(o_h)), int(round_func(o_w)))
 
 
@@ -43,8 +47,7 @@ def shape_data(node):
     try:
         # New-style input specification
         return map(int, node.parameters.shape[0].dim)
-    except:
-        # We most likely have a data layer on our hands. The problem is,
+    except BaseException:        # We most likely have a data layer on our hands. The problem is,
         # Caffe infers the dimensions of the data from the source (eg: LMDB).
         # We want to avoid reading datasets here. Fail for now.
         # This can be temporarily fixed by transforming the data layer to
@@ -56,7 +59,11 @@ def shape_data(node):
 
 def shape_mem_data(node):
     params = node.parameters
-    return TensorShape(params.batch_size, params.channels, params.height, params.width)
+    return TensorShape(
+        params.batch_size,
+        params.channels,
+        params.height,
+        params.width)
 
 
 def shape_concat(node):
@@ -80,4 +87,8 @@ def shape_pool(node):
 
 def shape_inner_product(node):
     input_shape = node.get_only_parent().output_shape
-    return TensorShape(input_shape.batch_size, node.layer.parameters.num_output, 1, 1)
+    return TensorShape(
+        input_shape.batch_size,
+        node.layer.parameters.num_output,
+        1,
+        1)

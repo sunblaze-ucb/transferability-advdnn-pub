@@ -1,5 +1,6 @@
 from kaffe.tensorflow import Network
 
+
 class AlexNet(Network):
     def setup(self):
         (self.feed('data')
