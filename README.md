@@ -2,9 +2,9 @@
 
 This repo provides the code to replicate the experiments in the paper
 
-> Yanpei Liu, Xinyun Chen, Chang Liu, Dawn Song, <cite> Delving into Transferable Adversarial Examples and Black-box Attacks </cite>
+> Yanpei Liu, Xinyun Chen, Chang Liu, Dawn Song, <cite> Delving into Transferable Adversarial Examples and Black-box Attacks </cite>, in Proceedings of 5th International Conference on Learning Representations (ICLR 2017)
 
-Paper [[arXiv](https://arxiv.org/abs/1611.02770)]
+Paper [[arXiv](https://arxiv.org/abs/1611.02770)] [[OpenReview](https://openreview.net/forum?id=Sys6GJqxl&noteId=Sys6GJqxl)]
 
 # Datasets
 
@@ -42,18 +42,13 @@ In the following we list some important arguments for our python codes:
 If you use the code in this repo, please cite the following paper:
 
 ```
-@article{DBLP:journals/corr/LiuCLS16,
+@inproceedings{liu2017delving,
   author    = {Yanpei Liu and
                Xinyun Chen and
                Chang Liu and
                Dawn Song},
   title     = {Delving into Transferable Adversarial Examples and Black-box Attacks},
-  journal   = {CoRR},
-  volume    = {abs/1611.02770},
   year      = {2016},
-  url       = {http://arxiv.org/abs/1611.02770},
-  timestamp = {Thu, 01 Dec 2016 19:32:08 +0100},
-  biburl    = {http://dblp.uni-trier.de/rec/bib/journals/corr/LiuCLS16},
-  bibsource = {dblp computer science bibliography, http://dblp.org}
+  booktitle = {Proceedings of 5th International Conference on Learning Representations},
 }
 ```
