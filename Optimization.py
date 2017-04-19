@@ -102,15 +102,13 @@ def calc_gradients(
     init_varibale_list = set(tf.all_variables()) - variable_set
     sesh.run(tf.initialize_variables(init_varibale_list))
 
-    coordinator = tf.train.Coordinator()
     # Start the image processing workers
-    threads = image_producer.start(session=sesh, coordinator=coordinator)
-    image_producer.startover(sesh)
+    threads = image_producer.start()
 
     tot_image = 0
 
     # Interactive with mini-batches
-    for (indices, labels, names, images) in image_producer.batches(sesh):
+    for (indices, labels, names, images) in image_producer.batches():
         sesh.run(tf.initialize_variables(init_varibale_list))
         if targets is not None:
             labels = [targets[e] for e in names]
@@ -161,10 +159,7 @@ def calc_gradients(
                 break
 
     # Close queue
-    image_producer.close_queue(session=sesh)
-    # Stop the worker threads
-    coordinator.request_stop()
-    coordinator.join(threads, stop_grace_period_secs=2)
+    image_producer.close()
 
     if output_file_dir is not None:
         if not os.path.exists(output_file_dir):
@@ -183,11 +178,7 @@ def main():
     # Parse arguments
     parser = argparse.ArgumentParser(
         description='Evaluate model on some dataset.')
-    parser.add_argument(
-        '-i',
-        '--input_dir',
-        type=str,
-        required=True,
+    parser.add_argument('-i', '--input_dir', type=str, required=True,
         help='Directory of dataset.')
     parser.add_argument(
         '-o',
