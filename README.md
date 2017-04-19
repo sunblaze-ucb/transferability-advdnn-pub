@@ -14,7 +14,7 @@ You can get the dataset by
 cd scripts
 bash retrieve_data.sh
 ```
-Or download validation dataset from official website: [ImageNet](www.image-net.org/challenges/LSVRC/2012/) to data/test_data folder
+Or download validation dataset from official website: [[ImageNet](https://www.image-net.org/challenges/LSVRC/2012/)] to data/test_data folder
 
 # Usage
 
