@@ -41,7 +41,7 @@ def process_image(img, scale, isotropic, crop, mean, rescale, need_rescale):
     return img
 
 
-class ImageProducer(object):
+class ImageProducer (object):
     """
     Loads and processes batches of images in parallel.
     """
@@ -51,7 +51,7 @@ class ImageProducer(object):
             image_paths,
             need_rescale,
             data_spec,
-            num_concurrent=4,
+            num_concurrent=1,
             batch_size=None,
             labels=None,
             device=None):
