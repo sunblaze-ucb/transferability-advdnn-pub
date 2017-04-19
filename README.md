@@ -35,6 +35,7 @@ In the following we list some important arguments for our python codes:
 * `--use_round`: Round to integer (optional).
 * `--weight_loss2`: Weight of distance penalty (optional).
 * `--noise_file`: Directory of added noise (optional).
+* `--target`: Target list of file in dataset, if not provided then will do nontargeted attack (optional).
 
 # Citation
 
