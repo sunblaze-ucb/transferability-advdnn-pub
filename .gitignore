@@ -1,4 +1,5 @@
 data/test_data
 checkpoints/*
+output/*
 *.pyc
 *.npy

@@ -259,13 +259,7 @@ def inception_load_parameters(sess, var_list=None):
 def save_all_as_checkponits():
     # Now this function only save ckpt file for GoogleNet,
     # TODO: Save ckpt for all 9 networks
-    for model_name in [
-        "AlexNet",
-        "CaffeNet",
-        "GoogleNet",
-        "NiN",
-        "ResNet50",
-            "VGG16"]:
+    for model_name in ["GoogleNet"]:
         if not tf.train.checkpoint_exists(CKPT_PATHES[model_name]):
             print "Checkpoint for " + model_name + " has not been created yet, creating checkpoint..."
             spec = get_data_spec(model_name)
