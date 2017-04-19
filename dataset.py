@@ -53,8 +53,7 @@ class ImageProducer (object):
             data_spec,
             num_concurrent=1,
             batch_size=None,
-            labels=None,
-            device=None):
+            labels=None):
         # The data specifications describe how to process the image
         self.data_spec = data_spec
         # A list of full image paths
@@ -67,15 +66,9 @@ class ImageProducer (object):
         self.extension_mask = self.create_extension_mask(self.image_paths)
 
         # Create the loading and processing operations
-        if device:
-            with tf.device(device):
-                self.setup(
-                    batch_size=batch_size,
-                    num_concurrent=num_concurrent)
-        else:
-            self.setup(batch_size=batch_size, num_concurrent=num_concurrent)
+        self.setup(batch_size=batch_size)
 
-    def setup(self, batch_size, num_concurrent):
+    def setup(self, batch_size):
         # Validate the batch size
         num_images = len(self.image_paths)
         batch_size = min(num_images, batch_size or self.data_spec.batch_size)
@@ -85,85 +78,47 @@ class ImageProducer (object):
                     num_images, batch_size))
         self.num_batches = num_images / batch_size
 
-        # Create a queue that will contain image paths (and their indices and
-        # extension indicator)
-        self.path_queue = tf.FIFOQueue(capacity=num_images,
-                                       dtypes=[tf.int32, tf.bool, tf.string],
-                                       name='path_queue')
+        # TODO
 
-        # Enqueue all image paths, along with their indices
-        indices = tf.range(num_images)
-        self.enqueue_paths_op = self.path_queue.enqueue_many(
-            [indices, self.extension_mask, self.image_paths])
-        # Close the path queue (no more additions)
-        self.close_path_queue_op = self.path_queue.close()
-
-        # Create an operation that dequeues a single path and returns a
-        # processed image
-        (idx, processed_image) = self.process()
-
+        (idx, processed_img) = self.process()
+        
         # Create a queue that will contain the processed images (and their
         # indices)
         image_shape = (
             self.data_spec.crop_size,
             self.data_spec.crop_size,
             self.data_spec.channels)
-        processed_queue = tf.FIFOQueue(
-            capacity=int(
-                np.ceil(
-                    num_images /
-                    float(num_concurrent))),
-            dtypes=[
-                tf.int32,
-                tf.float32],
-            shapes=[
-                (),
-                image_shape],
-            name='processed_queue')
 
-        # Enqueue the processed image and path
-        enqueue_processed_op = processed_queue.enqueue([idx, processed_image])
 
-        # Create a dequeue op that fetches a batch of processed images off the
-        # queue
-        self.dequeue_op = processed_queue.dequeue_many(batch_size)
-
-        # Create a queue runner to perform the processing operations in
-        # parallel
-        num_concurrent = min(num_concurrent, num_images)
-        self.queue_runner = tf.train.QueueRunner(
-            processed_queue, [enqueue_processed_op] * num_concurrent)
-
-    def startover(self, session):
-        # Queue all paths
-        session.run(self.enqueue_paths_op)
-
-    def close_queue(self, session):
-        session.run(self.close_path_queue_op)
-
-    def start(self, session, coordinator, num_concurrent=4):
-        '''Start the processing worker threads.'''
-        # Queue all paths
-        # session.run(self.enqueue_paths_op)
-        # Close the path queue
-        return self.queue_runner.create_threads(
-            session, coord=coordinator, start=True)
-
-    def get(self, session):
+        # TODO
+        
+    def startover(self):
+        # TODO
+        pass
+    
+    def close(self):
+        # TODO
+        pass
+    
+    def start(self):
+        # TODO
+        pass
+    
+    def get(self):
         '''
         Get a single batch of images along with their indices. If a set of labels were provided,
         the corresponding labels are returned instead of the indices.
         '''
-        (indices, images) = session.run(self.dequeue_op)
+        (indices, images) = (0, 0) # TODO
         labels = [self.labels[idx] for idx in indices]
         names = [osp.basename(osp.normpath(self.image_paths[idx]))
                  for idx in indices]
         return (indices, labels, names, images)
 
-    def batches(self, session):
+    def batches(self):
         '''Yield a batch until no more images are left.'''
         for _ in xrange(self.num_batches):
-            yield self.get(session=session)
+            yield self.get()
 
     def load_image(self, image_path, is_jpeg):
         # Read the file
@@ -254,7 +209,6 @@ class ImageNetProducer(ImageProducer):
             num_images,
             data_spec,
             need_rescale=True,
-            device=None,
             batch_size=None):
         # Read in the ground truth labels for the validation set
         # The get_ilsvrc_aux.sh in Caffe's data/ilsvrc12 folder can fetch a
@@ -279,5 +233,4 @@ class ImageNetProducer(ImageProducer):
             need_rescale=need_rescale,
             data_spec=data_spec,
             labels=labels,
-            device=device,
             batch_size=batch_size)
