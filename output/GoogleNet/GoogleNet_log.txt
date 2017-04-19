@@ -1,3 +1,0 @@
-Average numer of iterations: 80.00
-Average L2 distance 1.92
-ILSVRC2012_val_00021436.JPEG 80 1.92
