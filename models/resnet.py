@@ -2,6 +2,7 @@ from kaffe.tensorflow import Network
 
 
 class ResNet50(Network):
+
     def setup(self):
         (
             self.feed('data') .conv(
@@ -638,6 +639,7 @@ class ResNet50(Network):
 
 
 class ResNet101(Network):
+
     def setup(self):
         (
             self.feed('data') .conv(
@@ -1887,6 +1889,7 @@ class ResNet101(Network):
 
 
 class ResNet152(Network):
+
     def setup(self):
         (
             self.feed('data') .conv(

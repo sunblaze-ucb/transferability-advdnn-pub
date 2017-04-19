@@ -266,7 +266,8 @@ def inception_v3(inputs,
                     # Shape of feature map before the final layer.
                     shape = aux_logits.get_shape()
                     aux_logits = ops.conv2d(
-                        aux_logits, 768, shape[1:3], stddev=0.01, padding='VALID')
+                        aux_logits, 768, shape[
+                            1:3], stddev=0.01, padding='VALID')
                     aux_logits = ops.flatten(aux_logits)
                     aux_logits = ops.fc(
                         aux_logits,

@@ -5150,7 +5150,8 @@ _PRELUPARAMETER = _descriptor.Descriptor(
 
 _BLOBPROTO.fields_by_name['shape'].message_type = _BLOBSHAPE
 _BLOBPROTOVECTOR.fields_by_name['blobs'].message_type = _BLOBPROTO
-_FILLERPARAMETER.fields_by_name['variance_norm'].enum_type = _FILLERPARAMETER_VARIANCENORM
+_FILLERPARAMETER.fields_by_name[
+    'variance_norm'].enum_type = _FILLERPARAMETER_VARIANCENORM
 _FILLERPARAMETER_VARIANCENORM.containing_type = _FILLERPARAMETER
 _NETPARAMETER.fields_by_name['input_shape'].message_type = _BLOBSHAPE
 _NETPARAMETER.fields_by_name['state'].message_type = _NETSTATE
@@ -5161,9 +5162,12 @@ _SOLVERPARAMETER.fields_by_name['train_net_param'].message_type = _NETPARAMETER
 _SOLVERPARAMETER.fields_by_name['test_net_param'].message_type = _NETPARAMETER
 _SOLVERPARAMETER.fields_by_name['train_state'].message_type = _NETSTATE
 _SOLVERPARAMETER.fields_by_name['test_state'].message_type = _NETSTATE
-_SOLVERPARAMETER.fields_by_name['snapshot_format'].enum_type = _SOLVERPARAMETER_SNAPSHOTFORMAT
-_SOLVERPARAMETER.fields_by_name['solver_mode'].enum_type = _SOLVERPARAMETER_SOLVERMODE
-_SOLVERPARAMETER.fields_by_name['solver_type'].enum_type = _SOLVERPARAMETER_SOLVERTYPE
+_SOLVERPARAMETER.fields_by_name[
+    'snapshot_format'].enum_type = _SOLVERPARAMETER_SNAPSHOTFORMAT
+_SOLVERPARAMETER.fields_by_name[
+    'solver_mode'].enum_type = _SOLVERPARAMETER_SOLVERMODE
+_SOLVERPARAMETER.fields_by_name[
+    'solver_type'].enum_type = _SOLVERPARAMETER_SOLVERTYPE
 _SOLVERPARAMETER_SNAPSHOTFORMAT.containing_type = _SOLVERPARAMETER
 _SOLVERPARAMETER_SOLVERMODE.containing_type = _SOLVERPARAMETER
 _SOLVERPARAMETER_SOLVERTYPE.containing_type = _SOLVERPARAMETER
@@ -5177,80 +5181,114 @@ _LAYERPARAMETER.fields_by_name['param'].message_type = _PARAMSPEC
 _LAYERPARAMETER.fields_by_name['blobs'].message_type = _BLOBPROTO
 _LAYERPARAMETER.fields_by_name['include'].message_type = _NETSTATERULE
 _LAYERPARAMETER.fields_by_name['exclude'].message_type = _NETSTATERULE
-_LAYERPARAMETER.fields_by_name['transform_param'].message_type = _TRANSFORMATIONPARAMETER
+_LAYERPARAMETER.fields_by_name[
+    'transform_param'].message_type = _TRANSFORMATIONPARAMETER
 _LAYERPARAMETER.fields_by_name['loss_param'].message_type = _LOSSPARAMETER
-_LAYERPARAMETER.fields_by_name['accuracy_param'].message_type = _ACCURACYPARAMETER
+_LAYERPARAMETER.fields_by_name[
+    'accuracy_param'].message_type = _ACCURACYPARAMETER
 _LAYERPARAMETER.fields_by_name['argmax_param'].message_type = _ARGMAXPARAMETER
-_LAYERPARAMETER.fields_by_name['batch_norm_param'].message_type = _BATCHNORMPARAMETER
+_LAYERPARAMETER.fields_by_name[
+    'batch_norm_param'].message_type = _BATCHNORMPARAMETER
 _LAYERPARAMETER.fields_by_name['bias_param'].message_type = _BIASPARAMETER
 _LAYERPARAMETER.fields_by_name['concat_param'].message_type = _CONCATPARAMETER
-_LAYERPARAMETER.fields_by_name['contrastive_loss_param'].message_type = _CONTRASTIVELOSSPARAMETER
-_LAYERPARAMETER.fields_by_name['convolution_param'].message_type = _CONVOLUTIONPARAMETER
+_LAYERPARAMETER.fields_by_name[
+    'contrastive_loss_param'].message_type = _CONTRASTIVELOSSPARAMETER
+_LAYERPARAMETER.fields_by_name[
+    'convolution_param'].message_type = _CONVOLUTIONPARAMETER
 _LAYERPARAMETER.fields_by_name['crop_param'].message_type = _CROPPARAMETER
 _LAYERPARAMETER.fields_by_name['data_param'].message_type = _DATAPARAMETER
-_LAYERPARAMETER.fields_by_name['dropout_param'].message_type = _DROPOUTPARAMETER
-_LAYERPARAMETER.fields_by_name['dummy_data_param'].message_type = _DUMMYDATAPARAMETER
-_LAYERPARAMETER.fields_by_name['eltwise_param'].message_type = _ELTWISEPARAMETER
+_LAYERPARAMETER.fields_by_name[
+    'dropout_param'].message_type = _DROPOUTPARAMETER
+_LAYERPARAMETER.fields_by_name[
+    'dummy_data_param'].message_type = _DUMMYDATAPARAMETER
+_LAYERPARAMETER.fields_by_name[
+    'eltwise_param'].message_type = _ELTWISEPARAMETER
 _LAYERPARAMETER.fields_by_name['elu_param'].message_type = _ELUPARAMETER
 _LAYERPARAMETER.fields_by_name['embed_param'].message_type = _EMBEDPARAMETER
 _LAYERPARAMETER.fields_by_name['exp_param'].message_type = _EXPPARAMETER
-_LAYERPARAMETER.fields_by_name['flatten_param'].message_type = _FLATTENPARAMETER
-_LAYERPARAMETER.fields_by_name['hdf5_data_param'].message_type = _HDF5DATAPARAMETER
-_LAYERPARAMETER.fields_by_name['hdf5_output_param'].message_type = _HDF5OUTPUTPARAMETER
-_LAYERPARAMETER.fields_by_name['hinge_loss_param'].message_type = _HINGELOSSPARAMETER
-_LAYERPARAMETER.fields_by_name['image_data_param'].message_type = _IMAGEDATAPARAMETER
-_LAYERPARAMETER.fields_by_name['infogain_loss_param'].message_type = _INFOGAINLOSSPARAMETER
-_LAYERPARAMETER.fields_by_name['inner_product_param'].message_type = _INNERPRODUCTPARAMETER
+_LAYERPARAMETER.fields_by_name[
+    'flatten_param'].message_type = _FLATTENPARAMETER
+_LAYERPARAMETER.fields_by_name[
+    'hdf5_data_param'].message_type = _HDF5DATAPARAMETER
+_LAYERPARAMETER.fields_by_name[
+    'hdf5_output_param'].message_type = _HDF5OUTPUTPARAMETER
+_LAYERPARAMETER.fields_by_name[
+    'hinge_loss_param'].message_type = _HINGELOSSPARAMETER
+_LAYERPARAMETER.fields_by_name[
+    'image_data_param'].message_type = _IMAGEDATAPARAMETER
+_LAYERPARAMETER.fields_by_name[
+    'infogain_loss_param'].message_type = _INFOGAINLOSSPARAMETER
+_LAYERPARAMETER.fields_by_name[
+    'inner_product_param'].message_type = _INNERPRODUCTPARAMETER
 _LAYERPARAMETER.fields_by_name['input_param'].message_type = _INPUTPARAMETER
 _LAYERPARAMETER.fields_by_name['log_param'].message_type = _LOGPARAMETER
 _LAYERPARAMETER.fields_by_name['lrn_param'].message_type = _LRNPARAMETER
-_LAYERPARAMETER.fields_by_name['memory_data_param'].message_type = _MEMORYDATAPARAMETER
+_LAYERPARAMETER.fields_by_name[
+    'memory_data_param'].message_type = _MEMORYDATAPARAMETER
 _LAYERPARAMETER.fields_by_name['mvn_param'].message_type = _MVNPARAMETER
-_LAYERPARAMETER.fields_by_name['pooling_param'].message_type = _POOLINGPARAMETER
+_LAYERPARAMETER.fields_by_name[
+    'pooling_param'].message_type = _POOLINGPARAMETER
 _LAYERPARAMETER.fields_by_name['power_param'].message_type = _POWERPARAMETER
 _LAYERPARAMETER.fields_by_name['prelu_param'].message_type = _PRELUPARAMETER
 _LAYERPARAMETER.fields_by_name['python_param'].message_type = _PYTHONPARAMETER
-_LAYERPARAMETER.fields_by_name['reduction_param'].message_type = _REDUCTIONPARAMETER
+_LAYERPARAMETER.fields_by_name[
+    'reduction_param'].message_type = _REDUCTIONPARAMETER
 _LAYERPARAMETER.fields_by_name['relu_param'].message_type = _RELUPARAMETER
-_LAYERPARAMETER.fields_by_name['reshape_param'].message_type = _RESHAPEPARAMETER
+_LAYERPARAMETER.fields_by_name[
+    'reshape_param'].message_type = _RESHAPEPARAMETER
 _LAYERPARAMETER.fields_by_name['scale_param'].message_type = _SCALEPARAMETER
-_LAYERPARAMETER.fields_by_name['sigmoid_param'].message_type = _SIGMOIDPARAMETER
-_LAYERPARAMETER.fields_by_name['softmax_param'].message_type = _SOFTMAXPARAMETER
+_LAYERPARAMETER.fields_by_name[
+    'sigmoid_param'].message_type = _SIGMOIDPARAMETER
+_LAYERPARAMETER.fields_by_name[
+    'softmax_param'].message_type = _SOFTMAXPARAMETER
 _LAYERPARAMETER.fields_by_name['spp_param'].message_type = _SPPPARAMETER
 _LAYERPARAMETER.fields_by_name['slice_param'].message_type = _SLICEPARAMETER
 _LAYERPARAMETER.fields_by_name['tanh_param'].message_type = _TANHPARAMETER
-_LAYERPARAMETER.fields_by_name['threshold_param'].message_type = _THRESHOLDPARAMETER
+_LAYERPARAMETER.fields_by_name[
+    'threshold_param'].message_type = _THRESHOLDPARAMETER
 _LAYERPARAMETER.fields_by_name['tile_param'].message_type = _TILEPARAMETER
-_LAYERPARAMETER.fields_by_name['window_data_param'].message_type = _WINDOWDATAPARAMETER
-_LOSSPARAMETER.fields_by_name['normalization'].enum_type = _LOSSPARAMETER_NORMALIZATIONMODE
+_LAYERPARAMETER.fields_by_name[
+    'window_data_param'].message_type = _WINDOWDATAPARAMETER
+_LOSSPARAMETER.fields_by_name[
+    'normalization'].enum_type = _LOSSPARAMETER_NORMALIZATIONMODE
 _LOSSPARAMETER_NORMALIZATIONMODE.containing_type = _LOSSPARAMETER
 _BIASPARAMETER.fields_by_name['filler'].message_type = _FILLERPARAMETER
-_CONVOLUTIONPARAMETER.fields_by_name['weight_filler'].message_type = _FILLERPARAMETER
-_CONVOLUTIONPARAMETER.fields_by_name['bias_filler'].message_type = _FILLERPARAMETER
-_CONVOLUTIONPARAMETER.fields_by_name['engine'].enum_type = _CONVOLUTIONPARAMETER_ENGINE
+_CONVOLUTIONPARAMETER.fields_by_name[
+    'weight_filler'].message_type = _FILLERPARAMETER
+_CONVOLUTIONPARAMETER.fields_by_name[
+    'bias_filler'].message_type = _FILLERPARAMETER
+_CONVOLUTIONPARAMETER.fields_by_name[
+    'engine'].enum_type = _CONVOLUTIONPARAMETER_ENGINE
 _CONVOLUTIONPARAMETER_ENGINE.containing_type = _CONVOLUTIONPARAMETER
 _DATAPARAMETER.fields_by_name['backend'].enum_type = _DATAPARAMETER_DB
 _DATAPARAMETER_DB.containing_type = _DATAPARAMETER
-_DUMMYDATAPARAMETER.fields_by_name['data_filler'].message_type = _FILLERPARAMETER
+_DUMMYDATAPARAMETER.fields_by_name[
+    'data_filler'].message_type = _FILLERPARAMETER
 _DUMMYDATAPARAMETER.fields_by_name['shape'].message_type = _BLOBSHAPE
-_ELTWISEPARAMETER.fields_by_name['operation'].enum_type = _ELTWISEPARAMETER_ELTWISEOP
+_ELTWISEPARAMETER.fields_by_name[
+    'operation'].enum_type = _ELTWISEPARAMETER_ELTWISEOP
 _ELTWISEPARAMETER_ELTWISEOP.containing_type = _ELTWISEPARAMETER
 _EMBEDPARAMETER.fields_by_name['weight_filler'].message_type = _FILLERPARAMETER
 _EMBEDPARAMETER.fields_by_name['bias_filler'].message_type = _FILLERPARAMETER
 _HINGELOSSPARAMETER.fields_by_name['norm'].enum_type = _HINGELOSSPARAMETER_NORM
 _HINGELOSSPARAMETER_NORM.containing_type = _HINGELOSSPARAMETER
-_INNERPRODUCTPARAMETER.fields_by_name['weight_filler'].message_type = _FILLERPARAMETER
-_INNERPRODUCTPARAMETER.fields_by_name['bias_filler'].message_type = _FILLERPARAMETER
+_INNERPRODUCTPARAMETER.fields_by_name[
+    'weight_filler'].message_type = _FILLERPARAMETER
+_INNERPRODUCTPARAMETER.fields_by_name[
+    'bias_filler'].message_type = _FILLERPARAMETER
 _INPUTPARAMETER.fields_by_name['shape'].message_type = _BLOBSHAPE
-_LRNPARAMETER.fields_by_name['norm_region'].enum_type = _LRNPARAMETER_NORMREGION
+_LRNPARAMETER.fields_by_name[
+    'norm_region'].enum_type = _LRNPARAMETER_NORMREGION
 _LRNPARAMETER.fields_by_name['engine'].enum_type = _LRNPARAMETER_ENGINE
 _LRNPARAMETER_NORMREGION.containing_type = _LRNPARAMETER
 _LRNPARAMETER_ENGINE.containing_type = _LRNPARAMETER
-_POOLINGPARAMETER.fields_by_name['pool'].enum_type = _POOLINGPARAMETER_POOLMETHOD
+_POOLINGPARAMETER.fields_by_name[
+    'pool'].enum_type = _POOLINGPARAMETER_POOLMETHOD
 _POOLINGPARAMETER.fields_by_name['engine'].enum_type = _POOLINGPARAMETER_ENGINE
 _POOLINGPARAMETER_POOLMETHOD.containing_type = _POOLINGPARAMETER
 _POOLINGPARAMETER_ENGINE.containing_type = _POOLINGPARAMETER
-_REDUCTIONPARAMETER.fields_by_name['operation'].enum_type = _REDUCTIONPARAMETER_REDUCTIONOP
+_REDUCTIONPARAMETER.fields_by_name[
+    'operation'].enum_type = _REDUCTIONPARAMETER_REDUCTIONOP
 _REDUCTIONPARAMETER_REDUCTIONOP.containing_type = _REDUCTIONPARAMETER
 _RELUPARAMETER.fields_by_name['engine'].enum_type = _RELUPARAMETER_ENGINE
 _RELUPARAMETER_ENGINE.containing_type = _RELUPARAMETER
@@ -5269,47 +5307,73 @@ _SPPPARAMETER_POOLMETHOD.containing_type = _SPPPARAMETER
 _SPPPARAMETER_ENGINE.containing_type = _SPPPARAMETER
 _V1LAYERPARAMETER.fields_by_name['include'].message_type = _NETSTATERULE
 _V1LAYERPARAMETER.fields_by_name['exclude'].message_type = _NETSTATERULE
-_V1LAYERPARAMETER.fields_by_name['type'].enum_type = _V1LAYERPARAMETER_LAYERTYPE
+_V1LAYERPARAMETER.fields_by_name[
+    'type'].enum_type = _V1LAYERPARAMETER_LAYERTYPE
 _V1LAYERPARAMETER.fields_by_name['blobs'].message_type = _BLOBPROTO
-_V1LAYERPARAMETER.fields_by_name['blob_share_mode'].enum_type = _V1LAYERPARAMETER_DIMCHECKMODE
-_V1LAYERPARAMETER.fields_by_name['accuracy_param'].message_type = _ACCURACYPARAMETER
-_V1LAYERPARAMETER.fields_by_name['argmax_param'].message_type = _ARGMAXPARAMETER
-_V1LAYERPARAMETER.fields_by_name['concat_param'].message_type = _CONCATPARAMETER
-_V1LAYERPARAMETER.fields_by_name['contrastive_loss_param'].message_type = _CONTRASTIVELOSSPARAMETER
-_V1LAYERPARAMETER.fields_by_name['convolution_param'].message_type = _CONVOLUTIONPARAMETER
+_V1LAYERPARAMETER.fields_by_name[
+    'blob_share_mode'].enum_type = _V1LAYERPARAMETER_DIMCHECKMODE
+_V1LAYERPARAMETER.fields_by_name[
+    'accuracy_param'].message_type = _ACCURACYPARAMETER
+_V1LAYERPARAMETER.fields_by_name[
+    'argmax_param'].message_type = _ARGMAXPARAMETER
+_V1LAYERPARAMETER.fields_by_name[
+    'concat_param'].message_type = _CONCATPARAMETER
+_V1LAYERPARAMETER.fields_by_name[
+    'contrastive_loss_param'].message_type = _CONTRASTIVELOSSPARAMETER
+_V1LAYERPARAMETER.fields_by_name[
+    'convolution_param'].message_type = _CONVOLUTIONPARAMETER
 _V1LAYERPARAMETER.fields_by_name['data_param'].message_type = _DATAPARAMETER
-_V1LAYERPARAMETER.fields_by_name['dropout_param'].message_type = _DROPOUTPARAMETER
-_V1LAYERPARAMETER.fields_by_name['dummy_data_param'].message_type = _DUMMYDATAPARAMETER
-_V1LAYERPARAMETER.fields_by_name['eltwise_param'].message_type = _ELTWISEPARAMETER
+_V1LAYERPARAMETER.fields_by_name[
+    'dropout_param'].message_type = _DROPOUTPARAMETER
+_V1LAYERPARAMETER.fields_by_name[
+    'dummy_data_param'].message_type = _DUMMYDATAPARAMETER
+_V1LAYERPARAMETER.fields_by_name[
+    'eltwise_param'].message_type = _ELTWISEPARAMETER
 _V1LAYERPARAMETER.fields_by_name['exp_param'].message_type = _EXPPARAMETER
-_V1LAYERPARAMETER.fields_by_name['hdf5_data_param'].message_type = _HDF5DATAPARAMETER
-_V1LAYERPARAMETER.fields_by_name['hdf5_output_param'].message_type = _HDF5OUTPUTPARAMETER
-_V1LAYERPARAMETER.fields_by_name['hinge_loss_param'].message_type = _HINGELOSSPARAMETER
-_V1LAYERPARAMETER.fields_by_name['image_data_param'].message_type = _IMAGEDATAPARAMETER
-_V1LAYERPARAMETER.fields_by_name['infogain_loss_param'].message_type = _INFOGAINLOSSPARAMETER
-_V1LAYERPARAMETER.fields_by_name['inner_product_param'].message_type = _INNERPRODUCTPARAMETER
+_V1LAYERPARAMETER.fields_by_name[
+    'hdf5_data_param'].message_type = _HDF5DATAPARAMETER
+_V1LAYERPARAMETER.fields_by_name[
+    'hdf5_output_param'].message_type = _HDF5OUTPUTPARAMETER
+_V1LAYERPARAMETER.fields_by_name[
+    'hinge_loss_param'].message_type = _HINGELOSSPARAMETER
+_V1LAYERPARAMETER.fields_by_name[
+    'image_data_param'].message_type = _IMAGEDATAPARAMETER
+_V1LAYERPARAMETER.fields_by_name[
+    'infogain_loss_param'].message_type = _INFOGAINLOSSPARAMETER
+_V1LAYERPARAMETER.fields_by_name[
+    'inner_product_param'].message_type = _INNERPRODUCTPARAMETER
 _V1LAYERPARAMETER.fields_by_name['lrn_param'].message_type = _LRNPARAMETER
-_V1LAYERPARAMETER.fields_by_name['memory_data_param'].message_type = _MEMORYDATAPARAMETER
+_V1LAYERPARAMETER.fields_by_name[
+    'memory_data_param'].message_type = _MEMORYDATAPARAMETER
 _V1LAYERPARAMETER.fields_by_name['mvn_param'].message_type = _MVNPARAMETER
-_V1LAYERPARAMETER.fields_by_name['pooling_param'].message_type = _POOLINGPARAMETER
+_V1LAYERPARAMETER.fields_by_name[
+    'pooling_param'].message_type = _POOLINGPARAMETER
 _V1LAYERPARAMETER.fields_by_name['power_param'].message_type = _POWERPARAMETER
 _V1LAYERPARAMETER.fields_by_name['relu_param'].message_type = _RELUPARAMETER
-_V1LAYERPARAMETER.fields_by_name['sigmoid_param'].message_type = _SIGMOIDPARAMETER
-_V1LAYERPARAMETER.fields_by_name['softmax_param'].message_type = _SOFTMAXPARAMETER
+_V1LAYERPARAMETER.fields_by_name[
+    'sigmoid_param'].message_type = _SIGMOIDPARAMETER
+_V1LAYERPARAMETER.fields_by_name[
+    'softmax_param'].message_type = _SOFTMAXPARAMETER
 _V1LAYERPARAMETER.fields_by_name['slice_param'].message_type = _SLICEPARAMETER
 _V1LAYERPARAMETER.fields_by_name['tanh_param'].message_type = _TANHPARAMETER
-_V1LAYERPARAMETER.fields_by_name['threshold_param'].message_type = _THRESHOLDPARAMETER
-_V1LAYERPARAMETER.fields_by_name['window_data_param'].message_type = _WINDOWDATAPARAMETER
-_V1LAYERPARAMETER.fields_by_name['transform_param'].message_type = _TRANSFORMATIONPARAMETER
+_V1LAYERPARAMETER.fields_by_name[
+    'threshold_param'].message_type = _THRESHOLDPARAMETER
+_V1LAYERPARAMETER.fields_by_name[
+    'window_data_param'].message_type = _WINDOWDATAPARAMETER
+_V1LAYERPARAMETER.fields_by_name[
+    'transform_param'].message_type = _TRANSFORMATIONPARAMETER
 _V1LAYERPARAMETER.fields_by_name['loss_param'].message_type = _LOSSPARAMETER
 _V1LAYERPARAMETER.fields_by_name['layer'].message_type = _V0LAYERPARAMETER
 _V1LAYERPARAMETER_LAYERTYPE.containing_type = _V1LAYERPARAMETER
 _V1LAYERPARAMETER_DIMCHECKMODE.containing_type = _V1LAYERPARAMETER
-_V0LAYERPARAMETER.fields_by_name['weight_filler'].message_type = _FILLERPARAMETER
+_V0LAYERPARAMETER.fields_by_name[
+    'weight_filler'].message_type = _FILLERPARAMETER
 _V0LAYERPARAMETER.fields_by_name['bias_filler'].message_type = _FILLERPARAMETER
-_V0LAYERPARAMETER.fields_by_name['pool'].enum_type = _V0LAYERPARAMETER_POOLMETHOD
+_V0LAYERPARAMETER.fields_by_name[
+    'pool'].enum_type = _V0LAYERPARAMETER_POOLMETHOD
 _V0LAYERPARAMETER.fields_by_name['blobs'].message_type = _BLOBPROTO
-_V0LAYERPARAMETER.fields_by_name['hdf5_output_param'].message_type = _HDF5OUTPUTPARAMETER
+_V0LAYERPARAMETER.fields_by_name[
+    'hdf5_output_param'].message_type = _HDF5OUTPUTPARAMETER
 _V0LAYERPARAMETER_POOLMETHOD.containing_type = _V0LAYERPARAMETER
 _PRELUPARAMETER.fields_by_name['filler'].message_type = _FILLERPARAMETER
 DESCRIPTOR.message_types_by_name['BlobShape'] = _BLOBSHAPE
@@ -5324,15 +5388,18 @@ DESCRIPTOR.message_types_by_name['NetState'] = _NETSTATE
 DESCRIPTOR.message_types_by_name['NetStateRule'] = _NETSTATERULE
 DESCRIPTOR.message_types_by_name['ParamSpec'] = _PARAMSPEC
 DESCRIPTOR.message_types_by_name['LayerParameter'] = _LAYERPARAMETER
-DESCRIPTOR.message_types_by_name['TransformationParameter'] = _TRANSFORMATIONPARAMETER
+DESCRIPTOR.message_types_by_name[
+    'TransformationParameter'] = _TRANSFORMATIONPARAMETER
 DESCRIPTOR.message_types_by_name['LossParameter'] = _LOSSPARAMETER
 DESCRIPTOR.message_types_by_name['AccuracyParameter'] = _ACCURACYPARAMETER
 DESCRIPTOR.message_types_by_name['ArgMaxParameter'] = _ARGMAXPARAMETER
 DESCRIPTOR.message_types_by_name['ConcatParameter'] = _CONCATPARAMETER
 DESCRIPTOR.message_types_by_name['BatchNormParameter'] = _BATCHNORMPARAMETER
 DESCRIPTOR.message_types_by_name['BiasParameter'] = _BIASPARAMETER
-DESCRIPTOR.message_types_by_name['ContrastiveLossParameter'] = _CONTRASTIVELOSSPARAMETER
-DESCRIPTOR.message_types_by_name['ConvolutionParameter'] = _CONVOLUTIONPARAMETER
+DESCRIPTOR.message_types_by_name[
+    'ContrastiveLossParameter'] = _CONTRASTIVELOSSPARAMETER
+DESCRIPTOR.message_types_by_name[
+    'ConvolutionParameter'] = _CONVOLUTIONPARAMETER
 DESCRIPTOR.message_types_by_name['CropParameter'] = _CROPPARAMETER
 DESCRIPTOR.message_types_by_name['DataParameter'] = _DATAPARAMETER
 DESCRIPTOR.message_types_by_name['DropoutParameter'] = _DROPOUTPARAMETER
@@ -5346,8 +5413,10 @@ DESCRIPTOR.message_types_by_name['HDF5DataParameter'] = _HDF5DATAPARAMETER
 DESCRIPTOR.message_types_by_name['HDF5OutputParameter'] = _HDF5OUTPUTPARAMETER
 DESCRIPTOR.message_types_by_name['HingeLossParameter'] = _HINGELOSSPARAMETER
 DESCRIPTOR.message_types_by_name['ImageDataParameter'] = _IMAGEDATAPARAMETER
-DESCRIPTOR.message_types_by_name['InfogainLossParameter'] = _INFOGAINLOSSPARAMETER
-DESCRIPTOR.message_types_by_name['InnerProductParameter'] = _INNERPRODUCTPARAMETER
+DESCRIPTOR.message_types_by_name[
+    'InfogainLossParameter'] = _INFOGAINLOSSPARAMETER
+DESCRIPTOR.message_types_by_name[
+    'InnerProductParameter'] = _INNERPRODUCTPARAMETER
 DESCRIPTOR.message_types_by_name['InputParameter'] = _INPUTPARAMETER
 DESCRIPTOR.message_types_by_name['LogParameter'] = _LOGPARAMETER
 DESCRIPTOR.message_types_by_name['LRNParameter'] = _LRNPARAMETER

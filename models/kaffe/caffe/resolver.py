@@ -4,6 +4,7 @@ SHARED_CAFFE_RESOLVER = None
 
 
 class CaffeResolver(object):
+
     def __init__(self):
         self.import_caffe()
 

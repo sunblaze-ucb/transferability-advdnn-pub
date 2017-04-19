@@ -2,6 +2,7 @@ from kaffe.tensorflow import Network
 
 
 class CaffeNet(Network):
+
     def setup(self):
         (self.feed('data')
              .conv(11, 11, 96, 4, 4, padding='VALID', name='conv1')

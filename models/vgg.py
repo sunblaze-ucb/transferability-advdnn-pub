@@ -2,6 +2,7 @@ from kaffe.tensorflow import Network
 
 
 class VGG16(Network):
+
     def setup(self):
         (self.feed('data')
              .conv(3, 3, 64, 1, 1, name='conv1_1')

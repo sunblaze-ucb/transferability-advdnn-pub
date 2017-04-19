@@ -221,6 +221,7 @@ class ImageProducer(object):
 
 
 class ImageNetProducer(ImageProducer):
+
     @staticmethod
     def get_truth_labels(file_list):
         val_file_path = 'data/ilsvrc12/val.txt'

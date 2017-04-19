@@ -2,6 +2,7 @@ from kaffe.tensorflow import Network
 
 
 class GoogleNet(Network):
+
     def setup(self):
         (self.feed('data')
              .conv(7, 7, 64, 2, 2, name='conv1_7x7_s2')
