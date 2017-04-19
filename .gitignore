@@ -1,3 +1,4 @@
 data/test_data
+checkpoints/*
 *.pyc
 *.npy
