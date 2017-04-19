@@ -48,7 +48,7 @@ If you use the code in this repo, please cite the following paper:
                Chang Liu and
                Dawn Song},
   title     = {Delving into Transferable Adversarial Examples and Black-box Attacks},
-  year      = {2016},
+  year      = {2017},
   booktitle = {Proceedings of 5th International Conference on Learning Representations},
 }
 ```
