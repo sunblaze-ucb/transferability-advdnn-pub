@@ -172,56 +172,31 @@ def calc_gradients(
 def main():
     # Parse arguments
     parser = argparse.ArgumentParser(
-        description='Evaluate model on some dataset.')
+        description='Use Adam optimizer to generate adversarial examples.')
     parser.add_argument('-i', '--input_dir', type=str, required=True,
         help='Directory of dataset.')
-    parser.add_argument(
-        '-o',
-        '--output_dir',
-        type=str,
-        default=None,
+    parser.add_argument('-o', '--output_dir', type=str, default=None,
         help='Directory of output noise file.')
-    parser.add_argument(
-        '--model',
-        type=str,
-        required=True,
+    parser.add_argument('--model', type=str, required=True,
         choices=['GoogleNet'],
         help='Models to be evaluated.')
-    parser.add_argument(
-        '--num_images',
-        type=int,
-        default=sys.maxsize,
+    parser.add_argument('--num_images', type=int, default=sys.maxsize,
         help='Max number of images to be evaluated.')
     parser.add_argument('--file_list', type=str, default=None,
                         help='Evaluate a specific list of file in dataset.')
     parser.add_argument('--noise_file', type=str, default=None,
                         help='Directory of the noise file.')
-    parser.add_argument(
-        '--num_iter',
-        type=int,
-        default=1000,
+    parser.add_argument('--num_iter', type=int, default=1000,
         help='Number of iterations to generate attack.')
-    parser.add_argument(
-        '--save_freq',
-        type=int,
-        default=10,
+    parser.add_argument('--save_freq', type=int, default=10,
         help='Save .npy file when each save_freq iterations.')
-    parser.add_argument(
-        '--learning_rate',
-        type=float,
-        default=0.001 * 255,
+    parser.add_argument('--learning_rate', type=float, default=0.001 * 255,
         help='Learning rate of each iteration.')
     parser.add_argument('--target', type=str, default=None,
                         help='Target list of dataset.')
-    parser.add_argument(
-        '--weight_loss2',
-        type=float,
-        default=0.0,
+    parser.add_argument('--weight_loss2', type=float, default=0.0,
         help='Weight of distance penalty.')
-    parser.add_argument(
-        '--not_crop',
-        dest='use_crop',
-        action='store_false',
+    parser.add_argument('--not_crop', dest='use_crop', action='store_false',
         help='Not use crop in image producer.')
 
     parser.set_defaults(use_crop=True)

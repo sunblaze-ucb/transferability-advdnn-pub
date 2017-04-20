@@ -104,40 +104,24 @@ def save_file(sesh, image_producer, tmp_dir, noise, data_spec):
 def main():
     # Parse arguments
     parser = argparse.ArgumentParser(
-        description='Evaluate model on some dataset.')
-    parser.add_argument(
-        '-i',
-        '--input_dir',
-        type=str,
-        required=True,
+        description='Use Fast Gradient or Fast Gradient Sign method \
+                        to generate adversarial examples.')
+    parser.add_argument('-i', '--input_dir', type=str, required=True,
         help='Directory of dataset.')
-    parser.add_argument(
-        '-o',
-        '--output_dir',
-        type=str,
-        required=True,
+    parser.add_argument('-o', '--output_dir', type=str, required=True,
         help='Directory of output log file.')
-    parser.add_argument(
-        '--model',
-        type=str,
-        required=True,
+    parser.add_argument('--model', type=str, required=True,
         choices=['GoogleNet'],
         help='Models to be evaluated.')
-    parser.add_argument(
-        '--file_list',
-        type=str,
-        required=True,
+    parser.add_argument('--file_list', type=str, required=True,
         help='Evaluate a specific list of file in dataset.')
     parser.add_argument('--num_iter', type=int, default=100)
     parser.add_argument('--sign', dest='use_sign', action='store_true')
     parser.add_argument('--target', type=str, default=None,
                         help='Target list of file in dataset.')
     parser.add_argument('--noise_file', type=str, default=None)
-    parser.add_argument(
-        '-n',
-        '--not_crop',
-        dest='need_rescale',
-        action='store_false')
+    parser.add_argument('-n', '--not_crop', dest='need_rescale',
+                        action='store_false')
     parser.set_defaults(num_images=sys.maxsize)
     parser.set_defaults(use_sign=False)
     parser.set_defaults(need_rescale=True)
