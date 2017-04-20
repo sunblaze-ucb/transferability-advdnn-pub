@@ -197,6 +197,5 @@ def main():
                 args.output_dir, str(magnitude)), gradients * magnitude / 255.0 * (
                 data_spec.rescale[1] - data_spec.rescale[0]), data_spec)
 
-
 if __name__ == '__main__':
     main()
