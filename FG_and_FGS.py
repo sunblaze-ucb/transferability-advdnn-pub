@@ -37,7 +37,7 @@ def calc_gradients(
         dtype=float)
     true_label_record = np.zeros(total, dtype=int)
 
-    image_producer.startover(session=sesh)
+    image_producer.startover()
     for (indices, labels, names, images) in image_producer.batches(sesh):
         for i in range(len(indices)):
             true_label_record[indices[i]] = labels[i]
@@ -66,7 +66,6 @@ def save_file(sesh, image_producer, tmp_dir, noise, data_spec):
     if os.path.exists(tmp_dir):
         shutil.rmtree(tmp_dir)
     os.mkdir(tmp_dir)
-    image_producer.startover(session=sesh)
     total = len(image_producer)
     diff = np.zeros(
         shape=(
@@ -75,6 +74,7 @@ def save_file(sesh, image_producer, tmp_dir, noise, data_spec):
             data_spec.crop_size,
             data_spec.channels))
 
+    image_producer.startover()
     for (indices, label, names, images) in image_producer.batches(sesh):
         for index in range(len(indices)):
             attack_img = np.clip(
@@ -171,20 +171,18 @@ def main():
         probs_output, variable_list = models.get_model(
             sesh, input_node, args.model)
 
-    image_producer_o = dataset.ImageNetProducer(
+    image_producer = dataset.ImageNetProducer(
         file_list=args.file_list,
         data_path=args.input_dir,
         num_images=args.num_images,
         need_rescale=args.need_rescale,
         data_spec=data_spec,
         batch_size=1)
-    coordinator = tf.train.Coordinator()
-    threads_o = image_producer_o.start(session=sesh, coordinator=coordinator)
 
     print 'Start compute gradients'
     if args.noise_file is None:
         true_label, gradients = calc_gradients(
-            sesh, image_producer_o, input_node, probs_output, data_spec, args.use_sign, targets)
+            sesh, image_producer, input_node, probs_output, data_spec, args.use_sign, targets)
     else:
         gradients = np.load(args.noise_file)
         if args.use_sign:
@@ -195,14 +193,9 @@ def main():
 
     for magnitude in range(1, args.num_iter + 1):
         distance = save_file(
-            sesh, image_producer_o, os.path.join(
+            sesh, image_producer, os.path.join(
                 args.output_dir, str(magnitude)), gradients * magnitude / 255.0 * (
                 data_spec.rescale[1] - data_spec.rescale[0]), data_spec)
-    image_producer_o.close_queue(sesh)
-
-    # Stop the worker threads
-    coordinator.request_stop()
-    coordinator.join(threads_o, stop_grace_period_secs=2)
 
 
 if __name__ == '__main__':

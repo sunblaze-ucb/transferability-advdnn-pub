@@ -65,6 +65,8 @@ class ImageProducer (object):
         # A boolean flag per image indicating whether its a JPEG or PNG
         self.extension_mask = self.create_extension_mask(self.image_paths)
 
+        self.start_over_flag = True
+
         # Load images and save as cache
         self.setup(batch_size=batch_size)
 
@@ -80,10 +82,9 @@ class ImageProducer (object):
 
         self.img_cache = {}
 
-        for i in range(num_images):
-            idx = i
-            is_jpeg = self.extension_mask[i]
-            image_path = self.image_paths[i]
+        for idx in range(num_images):
+            is_jpeg = self.extension_mask[idx]
+            image_path = self.image_paths[idx]
             # Load the image
             img = self.load_image(image_path, is_jpeg)
             # Process the image
@@ -94,9 +95,10 @@ class ImageProducer (object):
                                           mean=self.data_spec.mean,
                                           rescale=self.data_spec.rescale,
                                           need_rescale=self.need_rescale)
-            self.img_cache[i] = processed_img
+            self.img_cache[idx] = processed_img
 
-
+    def start_over(self):
+        self.start_over_flag = True
 
     def get(batch_idx, self):
         '''
@@ -113,8 +115,10 @@ class ImageProducer (object):
 
     def batches(self):
         '''Yield a batch until no more images are left.'''
-        for batch_idx in xrange(self.num_batches):
-            yield self.get(idx)
+        if self.start_over_flag:
+            for batch_idx in xrange(self.num_batches):
+                yield self.get(batch_idx)
+            self.start_over_flag = False
 
     def load_image(self, image_path, is_jpeg):
         # Read the file
@@ -206,9 +210,7 @@ class ImageNetProducer(ImageProducer):
         # The corresponding ground truth labels
         labels = ImageNetProducer.get_truth_labels(file_list)
         # Initialize base
-        super(
-            ImageNetProducer,
-            self).__init__(
+        super(ImageNetProducer, self).__init__(
             image_paths=image_paths,
             need_rescale=need_rescale,
             data_spec=data_spec,

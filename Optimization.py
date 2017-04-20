@@ -104,6 +104,7 @@ def calc_gradients(
 
     tot_image = 0
 
+    image_producer.startover()
     # Interactive with mini-batches
     for (indices, labels, names, images) in image_producer.batches():
         sesh.run(tf.initialize_variables(init_varibale_list))
