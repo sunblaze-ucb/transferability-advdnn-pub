@@ -65,51 +65,47 @@ class ImageProducer (object):
         # A boolean flag per image indicating whether its a JPEG or PNG
         self.extension_mask = self.create_extension_mask(self.image_paths)
 
-        # Create the loading and processing operations
+        # Load images and save as cache
         self.setup(batch_size=batch_size)
 
     def setup(self, batch_size):
         # Validate the batch size
         num_images = len(self.image_paths)
-        batch_size = min(num_images, batch_size or self.data_spec.batch_size)
+        self.batch_size = min(num_images, batch_size or self.data_spec.batch_size)
         if num_images % batch_size != 0:
             raise ValueError(
                 'The total number of images ({}) must be divisible by the batch size ({}).'.format(
                     num_images, batch_size))
         self.num_batches = num_images / batch_size
 
-        # TODO
+        self.img_cache = {}
 
-        (idx, processed_img) = self.process()
-        
-        # Create a queue that will contain the processed images (and their
-        # indices)
-        image_shape = (
-            self.data_spec.crop_size,
-            self.data_spec.crop_size,
-            self.data_spec.channels)
+        for i in range(num_images):
+            idx = i
+            is_jpeg = self.extension_mask[i]
+            image_path = self.image_paths[i]
+            # Load the image
+            img = self.load_image(image_path, is_jpeg)
+            # Process the image
+            processed_img = process_image(img=img,
+                                          scale=self.data_spec.scale_size,
+                                          isotropic=self.data_spec.isotropic,
+                                          crop=self.data_spec.crop_size,
+                                          mean=self.data_spec.mean,
+                                          rescale=self.data_spec.rescale,
+                                          need_rescale=self.need_rescale)
+            self.img_cache[i] = processed_img
 
 
-        # TODO
-        
-    def startover(self):
-        # TODO
-        pass
-    
-    def close(self):
-        # TODO
-        pass
-    
-    def start(self):
-        # TODO
-        pass
-    
-    def get(self):
+
+    def get(batch_idx, self):
         '''
         Get a single batch of images along with their indices. If a set of labels were provided,
         the corresponding labels are returned instead of the indices.
         '''
-        (indices, images) = (0, 0) # TODO
+
+        indices = [batch_idx * self.batch_size + idx for idx in range(self.batch_size)]
+        images = [self.img_cache[idx] for idx in indices]
         labels = [self.labels[idx] for idx in indices]
         names = [osp.basename(osp.normpath(self.image_paths[idx]))
                  for idx in indices]
@@ -117,8 +113,8 @@ class ImageProducer (object):
 
     def batches(self):
         '''Yield a batch until no more images are left.'''
-        for _ in xrange(self.num_batches):
-            yield self.get()
+        for batch_idx in xrange(self.num_batches):
+            yield self.get(idx)
 
     def load_image(self, image_path, is_jpeg):
         # Read the file
@@ -133,22 +129,6 @@ class ImageProducer (object):
             # This matches, for instance, how OpenCV orders the channels.
             img = tf.reverse(img, [False, False, True])
         return img
-
-    def process(self):
-        # Dequeue a single image path
-        idx, is_jpeg, image_path = self.path_queue.dequeue()
-        # Load the image
-        img = self.load_image(image_path, is_jpeg)
-        # Process the image
-        processed_img = process_image(img=img,
-                                      scale=self.data_spec.scale_size,
-                                      isotropic=self.data_spec.isotropic,
-                                      crop=self.data_spec.crop_size,
-                                      mean=self.data_spec.mean,
-                                      rescale=self.data_spec.rescale,
-                                      need_rescale=self.need_rescale)
-        # Return the processed image, along with its index
-        return (idx, processed_img)
 
     @staticmethod
     def create_extension_mask(paths):

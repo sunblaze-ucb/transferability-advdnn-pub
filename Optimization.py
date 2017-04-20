@@ -102,9 +102,6 @@ def calc_gradients(
     init_varibale_list = set(tf.all_variables()) - variable_set
     sesh.run(tf.initialize_variables(init_varibale_list))
 
-    # Start the image processing workers
-    threads = image_producer.start()
-
     tot_image = 0
 
     # Interactive with mini-batches
@@ -158,9 +155,6 @@ def calc_gradients(
                     rec_dist.append(var_diff[i])
                 break
 
-    # Close queue
-    image_producer.close()
-
     if output_file_dir is not None:
         if not os.path.exists(output_file_dir):
             os.makedirs(output_file_dir)
@@ -190,15 +184,7 @@ def main():
         '--model',
         type=str,
         required=True,
-        choices=[
-            'Inception2',
-            'Inception',
-            'ResNet50',
-            'ResNet101',
-            'ResNet152',
-            'VGG16',
-            'AlexNet',
-            'GoogleNet'],
+        choices=['GoogleNet'],
         help='Models to be evaluated.')
     parser.add_argument(
         '--num_images',
