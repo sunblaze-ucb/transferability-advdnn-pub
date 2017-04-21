@@ -113,7 +113,7 @@ def main():
     parser.add_argument('--model', type=str, required=True,
         choices=['GoogleNet'],
         help='Models to be evaluated.')
-    parser.add_argument('--file_list', type=str, required=True,
+    parser.add_argument('--file_list', type=str, required=False,
         help='Evaluate a specific list of file in dataset.')
     parser.add_argument('--num_iter', type=int, default=100)
     parser.add_argument('--sign', dest='use_sign', action='store_true')

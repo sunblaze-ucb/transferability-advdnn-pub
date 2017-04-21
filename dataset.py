@@ -65,7 +65,7 @@ class ImageProducer (object):
         # A boolean flag per image indicating whether its a JPEG or PNG
         self.extension_mask = self.create_extension_mask(self.image_paths)
 
-        self.start_over_flag = True
+        self.startover_flag = True
 
         # Load images and save as cache
         self.setup(batch_size=batch_size)
@@ -97,27 +97,27 @@ class ImageProducer (object):
                                           need_rescale=self.need_rescale)
             self.img_cache[idx] = processed_img
 
-    def start_over(self):
-        self.start_over_flag = True
+    def startover(self):
+        self.startover_flag = True
 
-    def get(batch_idx, self):
+    def get(self, batch_idx, session):
         '''
         Get a single batch of images along with their indices. If a set of labels were provided,
         the corresponding labels are returned instead of the indices.
         '''
 
         indices = [batch_idx * self.batch_size + idx for idx in range(self.batch_size)]
-        images = [self.img_cache[idx] for idx in indices]
+        images = [self.img_cache[idx].eval(session=session) for idx in indices]
         labels = [self.labels[idx] for idx in indices]
         names = [osp.basename(osp.normpath(self.image_paths[idx]))
                  for idx in indices]
         return (indices, labels, names, images)
 
-    def batches(self):
+    def batches(self, session):
         '''Yield a batch until no more images are left.'''
-        if self.start_over_flag:
+        if self.startover_flag:
             for batch_idx in xrange(self.num_batches):
-                yield self.get(batch_idx)
+                yield self.get(batch_idx, session)
             self.start_over_flag = False
 
     def load_image(self, image_path, is_jpeg):
@@ -125,9 +125,8 @@ class ImageProducer (object):
         file_data = tf.read_file(image_path)
         # Decode the image data
         img = tf.cond(
-            is_jpeg, lambda: tf.image.decode_jpeg(
-                file_data, channels=self.data_spec.channels), lambda: tf.image.decode_png(
-                file_data, channels=self.data_spec.channels))
+            tf.logical_and(is_jpeg, True), lambda: tf.image.decode_jpeg(file_data, channels=self.data_spec.channels), 
+                     lambda: tf.image.decode_png(file_data, channels=self.data_spec.channels))
         if self.data_spec.expects_bgr:
             # Convert from RGB channel ordering to BGR
             # This matches, for instance, how OpenCV orders the channels.
@@ -144,8 +143,8 @@ class ImageProducer (object):
             if extension != '.png':
                 raise ValueError(
                     'Unsupported image format: {}'.format(extension))
-            return False
-
+            return False 
+        
         return [is_jpeg(p) for p in paths]
 
     @staticmethod
