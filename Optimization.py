@@ -21,6 +21,7 @@ def load_model(name, input_node):
 
 
 def calc_gradients(
+        sesh,
         model_name,
         image_producer,
         output_file_dir,
@@ -55,8 +56,6 @@ def calc_gradients(
                             spec.rescale[1])
     diff = true_image - input_image
     loss2 = tf.sqrt(tf.reduce_mean(tf.square(true_image - input_image)))
-
-    sesh = tf.Session()
 
     probs, variable_set = models.get_model(sesh, true_image, model_name)
 
@@ -106,7 +105,7 @@ def calc_gradients(
 
     image_producer.startover()
     # Interactive with mini-batches
-    for (indices, labels, names, images) in image_producer.batches():
+    for (indices, labels, names, images) in image_producer.batches(sesh):
         sesh.run(tf.initialize_variables(init_varibale_list))
         if targets is not None:
             labels = [targets[e] for e in names]
@@ -138,8 +137,8 @@ def calc_gradients(
             if (cur_iter + 1) % save_freq == 0:
                 noise_diff = sesh.run(modifier)
                 for i in range(len(indices)):
-                    gradient_record[(cur_iter + 1) / save_freq -
-                                    1][indices[i]] = noise_diff[i]
+                    gradient_record[(cur_iter + 1) / save_freq - 1]
+                                   [indices[i]] = noise_diff[i]
 
             if cur_iter + 1 == max_iter or break_condition:
                 var_diff, var_probs = sesh.run(
@@ -155,19 +154,45 @@ def calc_gradients(
                     rec_names.append(names[i])
                     rec_dist.append(var_diff[i])
                 break
+    return gradient_record
 
-    if output_file_dir is not None:
-        if not os.path.exists(output_file_dir):
-            os.makedirs(output_file_dir)
-        for i in range(save_times):
-            np.save(os.path.join(output_file_dir, model_name + '-' +
-                                 str((i + 1) * save_freq)), gradient_record[i])
-    with open(os.path.join(output_file_dir, model_name + '_log.txt'), 'w') as f:
-        f.write('Average numer of iterations: %.2f\n' % np.mean(rec_iters))
-        f.write('Average L2 distance %.2f\n' % np.mean(rec_dist))
-        for i in range(len(rec_names)):
-            f.write('%s %d %.2f\n' % (rec_names[i], rec_iters[i], rec_dist[i]))
+def save_file(sesh, image_producer, noise, data_spec, args):
+    save_times = (args.num_iter - 1) / args.save_freq + 1
+    for i in range(save_times):
+        tmp_dir = os.path.join(args.output_dir, str(i))
+        if os.path.exists(tmp_dir):
+            shutil.rmtree(tmp_dir)
+        os.mkdir(tmp_dir)
+        total = len(image_producer)
+        diff = np.zeros(
+            shape=(
+                total,
+                data_spec.crop_size,
+                data_spec.crop_size,
+                data_spec.channels))
 
+        image_producer.startover()
+        for (indices, label, names, images) in image_producer.batches(sesh):
+            for index in range(len(indices)):
+                attack_img = np.clip(
+                    images[index] + noise[i][indices[index]] + data_spec.mean,
+                    data_spec.rescale[0],
+                    data_spec.rescale[1])
+                diff[indices[index]] = attack_img - data_spec.mean - images[index]
+                if data_spec.expects_bgr:
+                    for i in range(data_spec.crop_size):
+                        for j in range(data_spec.crop_size):
+                            b, g, r = attack_img[i][j]
+                            attack_img[i][j] = [r, g, b]
+                im = scipy.misc.toimage(
+                    arr=attack_img,
+                    cmin=data_spec.rescale[0],
+                    cmax=data_spec.rescale[1])
+                new_name, ext = os.path.splitext(names[index])
+                new_name += '.png'
+                im.save(os.path.join(tmp_dir, new_name))
+                print 'Saved', os.path.join(tmp_dir, new_name)
+    return
 
 def main():
     # Parse arguments
@@ -175,8 +200,8 @@ def main():
         description='Use Adam optimizer to generate adversarial examples.')
     parser.add_argument('-i', '--input_dir', type=str, required=True,
         help='Directory of dataset.')
-    parser.add_argument('-o', '--output_dir', type=str, default=None,
-        help='Directory of output noise file.')
+    parser.add_argument('-o', '--output_dir', type=str, required=True,
+        help='Directory of output image file.')
     parser.add_argument('--model', type=str, required=True,
         choices=['GoogleNet'],
         help='Models to be evaluated.')
@@ -221,8 +246,11 @@ def main():
             for line in f:
                 key, value = line.strip().split()
                 targets[key] = int(value)
+                
+    sesh = tf.Session()
 
-    calc_gradients(
+    gradients = calc_gradients(
+        sesh,
         args.model,
         image_producer,
         args.output_dir,
@@ -234,6 +262,11 @@ def main():
         data_spec,
         1,
         args.noise_file)
+    
+    save_file(sesh, image_producer,
+        gradients,
+        data_spec,
+        args)
 
 
 if __name__ == '__main__':

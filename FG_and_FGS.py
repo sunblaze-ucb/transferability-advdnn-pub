@@ -59,7 +59,7 @@ def calc_gradients(
             gradients[0][i] /= l2
             gradient_record[indices[i]] = gradients[0][i]
 
-    return true_label_record, gradient_record
+    return gradient_record
 
 
 def save_file(sesh, image_producer, tmp_dir, noise, data_spec):
@@ -78,10 +78,7 @@ def save_file(sesh, image_producer, tmp_dir, noise, data_spec):
     for (indices, label, names, images) in image_producer.batches(sesh):
         for index in range(len(indices)):
             attack_img = np.clip(
-                images[index] +
-                noise[
-                    indices[index]] +
-                data_spec.mean,
+                images[index] + noise[indices[index]] + data_spec.mean,
                 data_spec.rescale[0],
                 data_spec.rescale[1])
             diff[indices[index]] = attack_img - data_spec.mean - images[index]
@@ -109,7 +106,7 @@ def main():
     parser.add_argument('-i', '--input_dir', type=str, required=True,
         help='Directory of dataset.')
     parser.add_argument('-o', '--output_dir', type=str, required=True,
-        help='Directory of output log file.')
+        help='Directory of output image file.')
     parser.add_argument('--model', type=str, required=True,
         choices=['GoogleNet'],
         help='Models to be evaluated.')
@@ -165,21 +162,28 @@ def main():
 
     print 'Start compute gradients'
     if args.noise_file is None:
-        true_label, gradients = calc_gradients(
-            sesh, image_producer, input_node, probs_output, data_spec, args.use_sign, targets)
+        gradients = calc_gradients(
+            sesh, 
+            image_producer, 
+            input_node, 
+            probs_output, 
+            data_spec, 
+            args.use_sign, 
+            targets)
     else:
         gradients = np.load(args.noise_file)
         if args.use_sign:
             gradients = np.sign(gradients)
     print 'End compute gradients'
-    gradients /= np.sqrt(np.mean(np.square(gradients)))
+    gradients /= np.sqrt(np.mean(np.square(gradients))) // Why there is a normalization?
     print 'RMSE of gradients', np.sqrt(np.mean(np.square(gradients)))
 
     for magnitude in range(1, args.num_iter + 1):
-        distance = save_file(
-            sesh, image_producer, os.path.join(
-                args.output_dir, str(magnitude)), gradients * magnitude / 255.0 * (
-                data_spec.rescale[1] - data_spec.rescale[0]), data_spec)
+        distance = save_file(sesh, image_producer, 
+                             os.path.join(args.output_dir, str(magnitude)), 
+                             gradients * magnitude / 255.0 * 
+                                 (data_spec.rescale[1] - data_spec.rescale[0]),
+                             data_spec)
 
 if __name__ == '__main__':
     main()
