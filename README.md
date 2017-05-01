@@ -37,11 +37,14 @@ In the following we list some important arguments for our python codes:
 * `--noise_file`: Directory of added noise (optional).
 * `--target`: Target list of file in dataset, if not provided then will do nontargeted attack (optional).
 
-You can run experiment of FG method using following command
+You can run experiment of FG/FGS method using following command
 ```bash
 python FG_and_FGS.py -i test -o output/GoogleNet --model GoogleNet --file_list test/test_file_list.txt
 ```
-
+You can also run optimization-based method using the following command
+```bash
+python Optimization.py -i test -o output/GoogleNet --model GoogleNet --file_list test/test_file_list.txt
+```
 # Citation
 
 If you use the code in this repo, please cite the following paper:
