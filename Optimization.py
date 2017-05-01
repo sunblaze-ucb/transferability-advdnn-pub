@@ -1,11 +1,12 @@
 import argparse
 import os
 import sys
+import shutil
 import models
 import dataset
 import numpy as np
 import tensorflow as tf
-from multiprocessing import Queue
+import scipy.misc
 
 
 def load_model(name, input_node):
@@ -137,8 +138,7 @@ def calc_gradients(
             if (cur_iter + 1) % save_freq == 0:
                 noise_diff = sesh.run(modifier)
                 for i in range(len(indices)):
-                    gradient_record[(cur_iter + 1) / save_freq - 1]
-                                   [indices[i]] = noise_diff[i]
+                    gradient_record[(cur_iter + 1) / save_freq - 1][indices[i]] = noise_diff[i]
 
             if cur_iter + 1 == max_iter or break_condition:
                 var_diff, var_probs = sesh.run(
