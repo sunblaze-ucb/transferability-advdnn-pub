@@ -1,6 +1,6 @@
 # Delving into Transferable Adversarial Examples and Black-box Attacks
 
-This repo provides the code to replicate the experiments in the paper
+This repo provides the code to replicate the experiments in the paper. It is still under development so ensemble models and other experiements will be added later.
 
 > Yanpei Liu, Xinyun Chen, Chang Liu, Dawn Song, <cite> Delving into Transferable Adversarial Examples and Black-box Attacks </cite>, in Proceedings of 5th International Conference on Learning Representations (ICLR 2017)
 
@@ -16,6 +16,7 @@ bash retrieve_data.sh
 ```
 Or download validation dataset from official website: [[ImageNet](https://www.image-net.org/challenges/LSVRC/2012/)] to data/test_data folder
 
+The image_label_target.csv under data folder is the images and their targets used for the paper.
 # Usage
 
 ## Model architectures
