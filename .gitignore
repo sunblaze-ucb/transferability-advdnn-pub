@@ -2,3 +2,4 @@ data/test_data
 output/*
 *.pyc
 *.npy
+*.DS_Store
